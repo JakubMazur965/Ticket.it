@@ -14,6 +14,6 @@ public class MainPageController {
 
     @RequestMapping("/")
     public String mainPage(Model model) {
-        return "Hello!";
+        return "index.html";
     }
 }
