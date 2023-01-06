@@ -49,9 +49,10 @@ public class SSHTunnel {
         // parameters for SSH Tunnel
         String[] sshUrlParts = dataSourceSshUrl.split("/");
         String[] sshUrlHost = sshUrlParts[2].split(":");
-        String sshHost = sshUrlHost[0];
+        String sshLocalHost = sshUrlHost[0];
+        String sshHost = "pluton.kt.agh.edu.pl";
         int sshLocalPort = Integer.parseInt(sshUrlHost[1]);
-        int sshPort = sshLocalPort;
+        int sshPort = 22;
 
         // Starting SSH Tunnel
         JSch jSch = new JSch();
@@ -59,7 +60,7 @@ public class SSHTunnel {
         session.setPassword(dataSourceSshPassword);
         session.setConfig("StrictHostKeyChecking", "no");
         session.connect();
-        session.setPortForwardingL(sshLocalPort, sshHost, sshLocalPort);
+        session.setPortForwardingL(sshLocalPort, sshLocalHost, sshLocalPort);
 
         // return a ssh session
         return session;
