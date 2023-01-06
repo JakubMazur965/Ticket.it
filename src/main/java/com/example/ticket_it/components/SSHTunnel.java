@@ -27,7 +27,7 @@ public class SSHTunnel {
     public SSHTunnel(@Value("${spring.datasource.ssh.url}") String dataSourceSshUrl,
                      @Value("${spring.datasource.ssh.user}") String dataSourceSshUser,
                      @Value("${spring.datasource.ssh.password}") String dataSourceSshPassword,
-                     @Value("${spring.datasource.ssh.password}") String dataSourcePassword) {
+                     @Value("${spring.datasource.password}") String dataSourcePassword) {
         setDataSourceSshUrl(dataSourceSshUrl);
         setDataSourceSshUser(dataSourceSshUser);
         setDataSourceSshPassword(dataSourceSshPassword);
