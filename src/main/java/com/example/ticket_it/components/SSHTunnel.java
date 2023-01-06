@@ -14,6 +14,7 @@ import java.sql.SQLException;
 
 @Component
 @PropertySource("classpath:application.properties")
+@PropertySource("classpath:application-local.properties")
 public class SSHTunnel {
 
     // db parameters - URL for DataBase
