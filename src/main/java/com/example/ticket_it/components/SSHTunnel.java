@@ -62,7 +62,6 @@ public class SSHTunnel {
         String sshHost = "pluton.kt.agh.edu.pl";
         int sshLocalPort = Integer.parseInt(sshUrlHost[1]);
         int sshPort = 22;
-
         // Starting SSH Tunnel
         JSch jSch = new JSch();
         Session session = jSch.getSession(dataSourceSshUser, sshHost, sshPort);

@@ -35,7 +35,6 @@ public class Application {
         } catch (JSchException e) {
             System.out.println(e.getMessage());
         }
-
         // Start connection to the DataBase
         Connection connection =  sshTunnel.connectionToDataBase();
 
