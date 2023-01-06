@@ -47,6 +47,9 @@ public class Application {
         }
 
         // end SSH Tunnel session
+        // assert - check that session is not null,
+        // if session is null, assert will throw an "Assertion Error"
+        assert session != null;
         session.disconnect();
 
     }
