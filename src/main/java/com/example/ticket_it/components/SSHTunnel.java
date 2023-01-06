@@ -20,14 +20,17 @@ public class SSHTunnel {
     private static String dataSourceSshUrl;
     private static String dataSourceSshUser;
     private static String dataSourceSshPassword;
+    private static String dataSourcePassword;
 
     @Autowired
     public SSHTunnel(@Value("${spring.datasource.ssh.url}") String dataSourceSshUrl,
                      @Value("${spring.datasource.ssh.user}") String dataSourceSshUser,
-                     @Value("${spring.datasource.ssh.password}") String dataSourceSshPassword) {
+                     @Value("${spring.datasource.ssh.password}") String dataSourceSshPassword,
+                     @Value("${spring.datasource.ssh.password}") String dataSourcePassword) {
         setDataSourceSshUrl(dataSourceSshUrl);
         setDataSourceSshUser(dataSourceSshUser);
         setDataSourceSshPassword(dataSourceSshPassword);
+        setDataSourcePassword(dataSourcePassword);
     }
 
     @Value("${spring.datasource.ssh.url}")
@@ -43,6 +46,11 @@ public class SSHTunnel {
     @Value("${spring.datasource.ssh.password}")
     public void setDataSourceSshPassword(String dataSourceSshPassword) {
         SSHTunnel.dataSourceSshPassword = dataSourceSshPassword;
+    }
+
+    @Value("${spring.datasource.password}")
+    public void setDataSourcePassword(String dataSourcePassword) {
+        SSHTunnel.dataSourcePassword = dataSourcePassword;
     }
 
     public Session startTunnel() throws JSchException {
@@ -70,10 +78,9 @@ public class SSHTunnel {
         // connection to the DataBase
         Connection connection = null;
         try {
-            connection = DriverManager.getConnection(dataSourceSshUrl, dataSourceSshUser, dataSourceSshPassword);
+            connection = DriverManager.getConnection(dataSourceSshUrl, dataSourceSshUser, dataSourcePassword);
             System.out.println("Connected has been established successfully");
         } catch (SQLException e) {
-            System.out.println("Dupa dupa i jeszcze raz dupa");
             System.out.println(e.getMessage());
         }
 
