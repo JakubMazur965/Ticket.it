@@ -35,6 +35,7 @@ public class Application {
         } catch (JSchException e) {
             System.out.println(e.getMessage());
         }
+
         // Start connection to the DataBase
         Connection connection =  sshTunnel.connectionToDataBase();
 
@@ -50,7 +51,6 @@ public class Application {
         // if session is null, assert will throw an "Assertion Error"
         assert session != null;
         session.disconnect();
-
     }
 
 }
