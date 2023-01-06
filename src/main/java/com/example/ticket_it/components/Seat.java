@@ -1,8 +1,8 @@
-package com.example.ticket_it.repository;
+package com.example.ticket_it.components;
 
-import org.springframework.stereotype.Repository;
+import org.springframework.stereotype.Component;
 
-@Repository
+@Component
 public class Seat {
     private int seatNumber;
     private int rowNumber;

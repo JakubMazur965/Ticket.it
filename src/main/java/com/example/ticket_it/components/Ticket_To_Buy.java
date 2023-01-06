@@ -1,24 +1,15 @@
-package com.example.ticket_it.repository;
+package com.example.ticket_it.components;
 
-import org.springframework.stereotype.Repository;
+import org.springframework.stereotype.Component;
 
-@Repository
-public class Ticket {
-    private int ticketID;
-    private int userID;
+@Component
+public class Ticket_To_Buy {
     private int seatNumber;
     private int rowNumber;
     private int sectorNumber;
     private int eventID;
     private int price;
-
-    public int getTicketID() {
-        return ticketID;
-    }
-
-    public int getUserID() {
-        return userID;
-    }
+    private int isBusy;
 
     public int getSeatNumber() {
         return seatNumber;
@@ -38,5 +29,9 @@ public class Ticket {
 
     public int getPrice() {
         return price;
+    }
+
+    public int getIsBusy() {
+        return isBusy;
     }
 }

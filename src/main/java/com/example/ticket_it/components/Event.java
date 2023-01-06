@@ -1,11 +1,11 @@
-package com.example.ticket_it.repository;
+package com.example.ticket_it.components;
 
-import org.springframework.stereotype.Repository;
+import org.springframework.stereotype.Component;
 
 import java.sql.Time;
 import java.sql.Date;
 
-@Repository
+@Component
 public class Event {
     private int eventID;
     private String name;
