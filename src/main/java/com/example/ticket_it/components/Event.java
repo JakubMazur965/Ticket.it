@@ -18,23 +18,47 @@ public class Event {
         return eventID;
     }
 
+    public void setEventID(int eventID) {
+        this.eventID = eventID;
+    }
+
     public String getName() {
         return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
     }
 
     public Date getEventDate() {
         return eventDate;
     }
 
+    public void setEventDate(Date eventDate) {
+        this.eventDate = eventDate;
+    }
+
     public Time getEventStart() {
         return eventStart;
+    }
+
+    public void setEventStart(Time eventStart) {
+        this.eventStart = eventStart;
     }
 
     public Time getEventEnd() {
         return eventEnd;
     }
 
+    public void setEventEnd(Time eventEnd) {
+        this.eventEnd = eventEnd;
+    }
+
     public String getOrganizer() {
         return organizer;
+    }
+
+    public void setOrganizer(String organizer) {
+        this.organizer = organizer;
     }
 }
