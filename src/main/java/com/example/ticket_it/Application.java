@@ -1,8 +1,6 @@
 package com.example.ticket_it;
 
-import com.example.ticket_it.components.DBHelper;
-import com.example.ticket_it.components.Event;
-import com.example.ticket_it.components.SSHTunnel;
+import com.example.ticket_it.components.*;
 import com.jcraft.jsch.JSchException;
 import com.jcraft.jsch.Session;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -37,22 +35,6 @@ public class Application {
         // Start connection to the DataBase
         Connection connection =  sshTunnel.connectionToDataBase();
 
-        // Creating a new Event
-
-        /*
-        Event event = new Event();
-        event.setEventID(2);
-        event.setName("Koncert");
-        Date date = new Date(2023, 1, 7);
-        event.setEventDate(date);
-        Time timeStart = new Time(12, 0, 0);
-        event.setEventStart(timeStart);
-        Time timeEnd = new Time(16, 30, 0);
-        event.setEventEnd(timeEnd);
-        event.setOrganizer("Sabaton");
-
-        DBHelper.addEvent(event, connection);
-        */
 
 
         // end connection
