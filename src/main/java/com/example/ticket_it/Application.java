@@ -13,42 +13,10 @@ import java.sql.*;
 @SpringBootApplication(exclude = {DataSourceAutoConfiguration.class})
 public class Application {
 
-    private static SSHTunnel sshTunnel;
-
-    @Autowired
-    public Application(SSHTunnel sshTunnel) {
-        this.sshTunnel = sshTunnel;
-    }
-
-
     public static void main(String[] args) {
         SpringApplication.run(Application.class, args);
 
-        // Start SSH Tunnel session
-        Session session = null;
-        try {
-            session = sshTunnel.startTunnel();
-        } catch (JSchException e) {
-            System.out.println(e.getMessage());
-        }
-
-        // Start connection to the DataBase
-        Connection connection =  sshTunnel.connectionToDataBase();
-
-
-
-        // end connection
-        try {
-            connection.close();
-        } catch (SQLException e) {
-            System.out.println(e.getMessage());
-        }
-
-        // end SSH Tunnel session
-        // assert - check that session is not null,
-        // if session is null, assert will throw an "Assertion Error"
-        assert session != null;
-        session.disconnect();
+        Utils.addTicketsToBuy();
 
     }
 

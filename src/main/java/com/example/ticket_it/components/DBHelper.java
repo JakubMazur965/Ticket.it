@@ -1,5 +1,6 @@
 package com.example.ticket_it.components;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import java.sql.*;
@@ -9,7 +10,7 @@ public class DBHelper {
 
     public static void addEvent(Event event, Connection connection) {
 
-        String query = "INSERT INTO event(event_id, name, event_date, event_start, event_end, organizer) VALUES(?,?,?,?,?,?);";
+        String query = "INSERT INTO event(event_id, name, event_date, event_start, event_end, organizer, event_class) VALUES(?,?,?,?,?,?,?);";
 
         try (PreparedStatement preparedStatement = connection.prepareStatement(query)) {
             // adding row to event table
@@ -19,6 +20,7 @@ public class DBHelper {
             preparedStatement.setTime(4, event.getEventStart());
             preparedStatement.setTime(5, event.getEventEnd());
             preparedStatement.setString(6, event.getOrganizer());
+            preparedStatement.setInt(7, event.getEventClass());
 
             preparedStatement.executeUpdate();
 
@@ -55,7 +57,7 @@ public class DBHelper {
         String query = "INSERT INTO seat(seat_number, row_number, sector_number, seat_id) VALUES(?,?,?,?);";
 
         try (PreparedStatement preparedStatement = connection.prepareStatement(query)) {
-            // adding row to event table
+            // adding row to seat table
             preparedStatement.setInt(1, seat.getSeatNumber());
             preparedStatement.setInt(2, seat.getRowNumber());
             preparedStatement.setInt(3, seat.getSectorNumber());
@@ -68,5 +70,98 @@ public class DBHelper {
         } catch (SQLException e) {
             System.out.println(e.getMessage());
         }
+    }
+
+    public static Seat getSeatByID(Connection connection, int id) {
+        Seat seat = new Seat();
+
+        String query = "SELECT * FROM seat WHERE seat_id = " + id;
+
+        try {
+            Statement stmt = connection.createStatement();
+            ResultSet rs = stmt.executeQuery(query);
+
+            rs.next();
+
+            seat.setSeatNumber(rs.getInt(1));
+            seat.setRowNumber(rs.getInt(2));
+            seat.setSectorNumber(rs.getInt(3));
+            seat.setSeatID(rs.getInt(4));
+
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        }
+
+        return seat;
+    }
+
+    public static Event getEventByID(Connection connection, int id) {
+        Event event = new Event();
+
+        String query = "SELECT * FROM event WHERE event_id = " + id;
+
+        try {
+            Statement stmt = connection.createStatement();
+            ResultSet rs = stmt.executeQuery(query);
+
+            rs.next();
+
+            event.setEventID(rs.getInt(1));
+            event.setName(rs.getString(2));
+            event.setEventDate(rs.getDate(3));
+            event.setEventStart(rs.getTime(4));
+            event.setEventEnd(rs.getTime(5));
+            event.setOrganizer(rs.getString(6));
+            event.setEventClass(rs.getInt(7));
+
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        }
+
+        return event;
+    }
+
+    public static void addTicketToBuy(Connection connection, Ticket_To_Buy ticket_to_buy) {
+
+        String query = "INSERT INTO ticket_to_buy(sector_number, event_id, price, is_busy, seat_id) VALUES(?,?,?,?,?);";
+
+        try (PreparedStatement preparedStatement = connection.prepareStatement(query)) {
+            // adding row to ticket_to_buy table
+            preparedStatement.setInt(1, ticket_to_buy.getSectorNumber());
+            preparedStatement.setInt(2, ticket_to_buy.getEventID());
+            preparedStatement.setInt(3, ticket_to_buy.getPrice());
+            preparedStatement.setInt(4, ticket_to_buy.getEventID());
+            preparedStatement.setInt(5, ticket_to_buy.getSeatID());
+
+            preparedStatement.executeUpdate();
+
+            System.out.println("The row has been added");
+
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
+        }
+    }
+
+    public static Sector getSectorBySectorNumber(Connection connection, int id) {
+        Sector sector = new Sector();
+
+        String query = "SELECT * FROM sector WHERE sector_number = " + id;
+
+        try {
+            Statement stmt = connection.createStatement();
+            ResultSet rs = stmt.executeQuery(query);
+
+            rs.next();
+
+            sector.setSectorNumber(rs.getInt(1));
+            sector.setHome(rs.getInt(2));
+            sector.setAway(rs.getInt(3));
+            sector.setVip(rs.getInt(4));
+
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        }
+
+        return sector;
     }
 }

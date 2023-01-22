@@ -13,6 +13,7 @@ public class Event {
     private Time eventStart;
     private Time eventEnd;
     private String organizer;
+    private int eventClass;
 
     public int getEventID() {
         return eventID;
@@ -60,5 +61,13 @@ public class Event {
 
     public void setOrganizer(String organizer) {
         this.organizer = organizer;
+    }
+
+    public int getEventClass() {
+        return eventClass;
+    }
+
+    public void setEventClass(int eventClass) {
+        this.eventClass = eventClass;
     }
 }
