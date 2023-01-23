@@ -18,8 +18,8 @@ public class Utils {
         this.sshTunnel = sshTunnel;
     }
 
-    // Adding ticket_to_buy depend on event_id
-    public static void addTicketsToBuy() {
+    // Session to the DB
+    public static Session DBSession() {
         // Start SSH Tunnel session
         Session session = null;
         try {
@@ -28,8 +28,41 @@ public class Utils {
             System.out.println(e.getMessage());
         }
 
+        return session;
+    }
+
+    // Connection to the DB
+    public static Connection DBConnection(Session session) {
         // Start connection to the DataBase
         Connection connection =  sshTunnel.connectionToDataBase();
+
+        return connection;
+    }
+
+    public static void endDBConnection(Connection connection) {
+        // end connection
+        try {
+            connection.close();
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
+        }
+    }
+
+    public static void endDBSession(Session session) {
+        // end SSH Tunnel session
+        // assert - check that session is not null,
+        // if session is null, assert will throw an "Assertion Error"
+        assert session != null;
+        session.disconnect();
+    }
+
+
+    // Adding ticket_to_buy depend on event_id
+    public static void addTicketsToBuy() {
+        // Start SSH Tunnel session
+        Session session = DBSession();
+        // Start connection to the DataBase
+        Connection connection = DBConnection(session);
 
         // choose event
         Event event = DBHelper.getEventByID(connection, 1);
@@ -57,16 +90,9 @@ public class Utils {
         System.out.println("Tickets have been added");
 
         // end connection
-        try {
-            connection.close();
-        } catch (SQLException e) {
-            System.out.println(e.getMessage());
-        }
+        endDBConnection(connection);
 
         // end SSH Tunnel session
-        // assert - check that session is not null,
-        // if session is null, assert will throw an "Assertion Error"
-        assert session != null;
-        session.disconnect();
+        endDBSession(session);
     }
 }
