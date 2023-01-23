@@ -123,15 +123,16 @@ public class DBHelper {
 
     public static void addTicketToBuy(Connection connection, Ticket_To_Buy ticket_to_buy) {
 
-        String query = "INSERT INTO ticket_to_buy(sector_number, event_id, price, is_busy, seat_id) VALUES(?,?,?,?,?);";
+        String query = "INSERT INTO ticket_to_buy(sector_number, event_id, price, is_busy, seat_id, ticket_to_but_id) VALUES(?,?,?,?,?,?);";
 
         try (PreparedStatement preparedStatement = connection.prepareStatement(query)) {
             // adding row to ticket_to_buy table
             preparedStatement.setInt(1, ticket_to_buy.getSectorNumber());
             preparedStatement.setInt(2, ticket_to_buy.getEventID());
             preparedStatement.setInt(3, ticket_to_buy.getPrice());
-            preparedStatement.setInt(4, ticket_to_buy.getEventID());
+            preparedStatement.setInt(4, ticket_to_buy.getIsBusy());
             preparedStatement.setInt(5, ticket_to_buy.getSeatID());
+            preparedStatement.setInt(6, ticket_to_buy.getTicketToButID());
 
             preparedStatement.executeUpdate();
 

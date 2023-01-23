@@ -32,10 +32,11 @@ public class Utils {
         Connection connection =  sshTunnel.connectionToDataBase();
 
         // choose event
-        Event event = DBHelper.getEventByID(connection, 3);
+        Event event = DBHelper.getEventByID(connection, 1);
 
         Ticket_To_Buy ticket_to_buy = new Ticket_To_Buy();
         ticket_to_buy.setEventID(event.getEventID());
+
         ticket_to_buy.setIsBusy(0);
 
         for (int i = 1; i < 201; i++) {
@@ -47,6 +48,8 @@ public class Utils {
             Sector sector = DBHelper.getSectorBySectorNumber(connection, seat.getSectorNumber());
             int price = (event.getEventClass() * 100) * ((sector.getHome() * 1) + (sector.getAway() * 2) + (sector.getVip() * 5));
             ticket_to_buy.setPrice(price);
+
+            ticket_to_buy.setTicketToButID(i);
 
             DBHelper.addTicketToBuy(connection, ticket_to_buy);
         }
