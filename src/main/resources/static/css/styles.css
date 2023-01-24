@@ -17,6 +17,9 @@ body {
     align-content: center;
     margin-top: 100px;
 }
+.navbar-cart {
+    margin-right: 15px;
+}
 table {
     width: 80%;
 }

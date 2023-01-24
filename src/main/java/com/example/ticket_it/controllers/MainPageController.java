@@ -14,6 +14,16 @@ public class MainPageController {
 
     @RequestMapping("/")
     public String mainPage(Model model) {
-        return "index.html";
+        return "base.html";
+    }
+
+    @RequestMapping("/login")
+    public String loginPage(Model model) {
+        return "login.html";
+    }
+
+    @RequestMapping("/register")
+    public String registerPage(Model model) {
+        return "register.html";
     }
 }
