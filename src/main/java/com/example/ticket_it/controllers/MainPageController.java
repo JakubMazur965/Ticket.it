@@ -14,6 +14,7 @@ public class MainPageController {
 
     @RequestMapping("/")
     public String mainPage(Model model) {
+        model.addAttribute("events", MainPageService.getEvents());
         return "home.html";
     }
 

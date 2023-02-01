@@ -12,9 +12,9 @@
             </thead>
             <tbody>
             <!-- todo: events from database -->
-            <tr>
-                <th scope="row">test</th>
-                <th scope="row">test</th>
+            <tr th:each="event : ${events}">
+                <th th:text="${event.name}" scope="row">test</th>
+                <th th:text="${event.price}" scope="row">test</th>
                 <td><button type="button" class="btn btn-secondary">+</button></td>
             </tr>
             </tbody>
