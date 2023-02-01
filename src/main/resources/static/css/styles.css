@@ -6,22 +6,32 @@
 body {
     font-family: "Century Gothic", serif;
 }
+
 .wrapper {
     max-width: 1000px;
     margin: 20px auto;
 }
 .content {
-    display: block;
+    display: flex;
     text-align: center;
     justify-content: center;
     align-content: center;
+    flex-direction: column;
+    flex-wrap: wrap;
     margin-top: 100px;
 }
-.navbar-cart {
-    margin-right: 15px;
+
+.table {
+    width: 70%;
 }
-table {
-    width: 80%;
+
+tr, td, th {
+   text-align: center;
+   vertical-align: middle;
+   font-weight: normal;
+}
+thead th {
+    font-weight: bold;
 }
 
 form input {

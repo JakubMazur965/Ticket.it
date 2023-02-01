@@ -1,0 +1,20 @@
+<div th:insert="base :: head"></div>
+<div th:insert="base :: navbar"></div>
+<div class="wrapper">
+    <div class="content">
+        <h1>Depozyt</h1>
+        <hr>
+        <br>
+        <form th:action="@{/deposit}" method="post">
+            <h4>Aktualny stan konta</h4>
+            <!-- todo: stan konta z bazy -->
+            <span></span>
+            <br>
+            <div class="m-2 mt-4">
+                <input type="number" name="amount" placeholder="Kwota"/>
+            </div>
+            <br>
+            <input class="btn" type="submit" value="Wpłać"/>
+        </form>
+    </div>
+</div>

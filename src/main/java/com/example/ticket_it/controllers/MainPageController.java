@@ -26,4 +26,19 @@ public class MainPageController {
     public String registerPage(Model model) {
         return "register.html";
     }
+
+    @RequestMapping("/payment_history")
+    public String paymentHistoryPage(Model model) {
+        return "payment_history.html";
+    }
+
+    @RequestMapping("/ticket_history")
+    public String ticketHistoryPage(Model model) {
+        return "ticket_history.html";
+    }
+
+    @RequestMapping("/deposit")
+    public String depositPage(Model model) {
+        return "deposit.html";
+    }
 }
