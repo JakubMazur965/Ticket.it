@@ -23,3 +23,17 @@ body {
 table {
     width: 80%;
 }
+
+form input {
+    padding: 5px;
+}
+
+.btn {
+    color: white;
+    background-color: #212529;
+    border: none;
+}
+.btn:hover {
+    color: white;
+    font-weight: bold;
+}
