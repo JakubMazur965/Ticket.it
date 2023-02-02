@@ -4,6 +4,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import java.sql.*;
+import java.util.ArrayList;
+import java.util.List;
 
 @Component
 public class DBHelper {
@@ -164,5 +166,32 @@ public class DBHelper {
         }
 
         return sector;
+    }
+
+    public static List<Event> getEvents(Connection connection) {
+        List<Event> events = new ArrayList<>();
+        String query = "SELECT * FROM event;";
+
+        try {
+            Statement statement = connection.createStatement();
+            ResultSet rs = statement.executeQuery(query);
+
+            while (rs.next()) {
+                Event event = new Event();
+                event.setEventID(rs.getInt(1));
+                event.setName(rs.getString(2));
+                event.setEventDate(rs.getDate(3));
+                event.setEventStart(rs.getTime(4));
+                event.setEventEnd(rs.getTime(5));
+                event.setOrganizer(rs.getString(6));
+                event.setEventClass(rs.getInt(7));
+
+                events.add(event);
+            }
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+
+        return events;
     }
 }
