@@ -13,13 +13,12 @@
             </tr>
             </thead>
             <tbody>
-            <!-- todo: events from database -->
             <tr th:each="event : ${events}">
                 <th th:text="${event.name}" scope="row"></th>
                 <th th:text="${event.organizer}" scope="row"></th>
                 <th th:text="${event.eventDate}" scope="row"></th>
                 <th th:text="${event.eventStart} + ' - ' + ${event.eventEnd}" scope="row"></th>
-                <td><button type="button" class="btn btn-secondary">+</button></td>
+                <td><a th:href="@{/event/{id}(id=${event.eventID})}" class="btn btn-secondary">+</a></td>
             </tr>
             </tbody>
         </table>
