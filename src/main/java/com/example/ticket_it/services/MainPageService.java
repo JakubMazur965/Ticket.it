@@ -13,7 +13,7 @@ import java.util.List;
 @Service
 public class MainPageService {
     public static List<Event> getEvents() {
-        List <Event> events = new ArrayList<>();
+        List <Event> events;
 
         Session session = Utils.DBSession();
         Connection connection = Utils.DBConnection(session);

@@ -6,15 +6,19 @@
             <thead>
             <tr class="table">
                 <th scope="col">Wydarzenie</th>
-                <th scope="col">Cena od</th>
+                <th scope="col">Organizator</th>
+                <th scope="col">Data</th>
+                <th scope="col">Czas trwania</th>
                 <th scope="col">Kup bilet</th>
             </tr>
             </thead>
             <tbody>
             <!-- todo: events from database -->
             <tr th:each="event : ${events}">
-                <th th:text="${event.name}" scope="row">test</th>
-                <th th:text="${event.price}" scope="row">test</th>
+                <th th:text="${event.name}" scope="row"></th>
+                <th th:text="${event.organizer}" scope="row"></th>
+                <th th:text="${event.eventDate}" scope="row"></th>
+                <th th:text="${event.eventStart} + ' - ' + ${event.eventEnd}" scope="row"></th>
                 <td><button type="button" class="btn btn-secondary">+</button></td>
             </tr>
             </tbody>
