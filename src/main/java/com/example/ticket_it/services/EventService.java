@@ -13,7 +13,7 @@ import java.util.List;
 
 @Service
 public class EventService {
-    public static Event findById(int id) {
+    public static Event getEventByID (int id) {
         Event event;
 
         Session session = Utils.DBSession();
