@@ -196,15 +196,15 @@ public class DBHelper {
     }
 
     public static void addUser(Connection connection, User user) {
-        String query = "INSERT INTO user(user_id, name, surname, login, password, bank_balance) VALUES (?,?,?,?,?,?)";
+        String query = "INSERT INTO user_table( name, surname, login, password, bank_balance) VALUES(?,?,?,?,?);";
 
         try (PreparedStatement preparedStatement = connection.prepareStatement(query)) {
             // adding row to ticket_to_buy table
-            preparedStatement.setString(2, user.getName());
-            preparedStatement.setString(3, user.getSurname());
-            preparedStatement.setString(4, user.getLogin());
-            preparedStatement.setString(5, user.getPassword());
-            preparedStatement.setInt(6, 0);
+            preparedStatement.setString(1, user.getName());
+            preparedStatement.setString(2, user.getSurname());
+            preparedStatement.setString(3, user.getLogin());
+            preparedStatement.setString(4, user.getPassword());
+            preparedStatement.setInt(5, 0);
 
             preparedStatement.executeUpdate();
 
