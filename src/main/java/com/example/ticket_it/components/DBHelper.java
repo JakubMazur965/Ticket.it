@@ -214,5 +214,4 @@ public class DBHelper {
             System.out.println(e.getMessage());
         }
     }
-    }
 }
