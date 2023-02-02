@@ -148,7 +148,7 @@ public class DBHelper {
     public static Sector getSectorBySectorNumber(Connection connection, int id) {
         Sector sector = new Sector();
 
-        String query = "SELECT * FROM sector WHERE sector_number = " + id;
+        String query = "SELECT * FROM sector WHERE sector_number = " + id + ";";
 
         try {
             Statement stmt = connection.createStatement();
@@ -196,15 +196,15 @@ public class DBHelper {
     }
 
     public static void addUser(Connection connection, User user) {
-        String query = "INSERT INTO user(user_id, name, surname, login, password, bank_balance) VALUES (?,?,?,?,?,?)";
+        String query = "INSERT INTO user_table( name, surname, login, password, bank_balance) VALUES(?,?,?,?,?);";
 
         try (PreparedStatement preparedStatement = connection.prepareStatement(query)) {
             // adding row to ticket_to_buy table
-            preparedStatement.setString(2, user.getName());
-            preparedStatement.setString(3, user.getSurname());
-            preparedStatement.setString(4, user.getLogin());
-            preparedStatement.setString(5, user.getPassword());
-            preparedStatement.setInt(6, 0);
+            preparedStatement.setString(1, user.getName());
+            preparedStatement.setString(2, user.getSurname());
+            preparedStatement.setString(3, user.getLogin());
+            preparedStatement.setString(4, user.getPassword());
+            preparedStatement.setInt(5, 0);
 
             preparedStatement.executeUpdate();
 
@@ -212,6 +212,27 @@ public class DBHelper {
 
         } catch (SQLException e) {
             System.out.println(e.getMessage());
+        }
+    }
+
+    public static void loginUser (Connection connection, String username, String password) {
+        String query = "SELECT * FROM user_table  WHERE 'login' = " + username + " ;";
+
+        try {
+            Statement stmt = connection.createStatement();
+            ResultSet rs = stmt.executeQuery(query);
+
+            rs.next();
+
+            System.out.println(rs.getInt(1));
+            System.out.println(rs.getString(2));
+            System.out.println(rs.getString(3));
+            System.out.println(rs.getString(4));
+            System.out.println(rs.getString(5));
+            System.out.println(rs.getInt(6));
+
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
         }
     }
 }
