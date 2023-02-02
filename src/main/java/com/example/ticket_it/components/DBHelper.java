@@ -170,7 +170,7 @@ public class DBHelper {
 
     public static List<Event> getEvents(Connection connection) {
         List<Event> events = new ArrayList<>();
-        String query = "SELECT * FROM event;";
+        String query = "SELECT * FROM event ORDER BY event_date;";
 
         try {
             Statement statement = connection.createStatement();
@@ -193,5 +193,26 @@ public class DBHelper {
         }
 
         return events;
+    }
+
+    public static void addUser(Connection connection, User user) {
+        String query = "INSERT INTO user(user_id, name, surname, login, password, bank_balance) VALUES (?,?,?,?,?,?)";
+
+        try (PreparedStatement preparedStatement = connection.prepareStatement(query)) {
+            // adding row to ticket_to_buy table
+            preparedStatement.setString(2, user.getName());
+            preparedStatement.setString(3, user.getSurname());
+            preparedStatement.setString(4, user.getLogin());
+            preparedStatement.setString(5, user.getPassword());
+            preparedStatement.setInt(6, 0);
+
+            preparedStatement.executeUpdate();
+
+            System.out.println("The row has been added");
+
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
+        }
+    }
     }
 }
