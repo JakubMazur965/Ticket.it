@@ -17,9 +17,6 @@ public class LoginService {
     RegisterService registerService;
 
     public void loginUser(String username, String password) {
-
-        password = registerService.encode(password);
-
         Session session = Utils.DBSession();
         Connection connection = Utils.DBConnection(session);
         DBHelper.loginUser(connection, username, password);

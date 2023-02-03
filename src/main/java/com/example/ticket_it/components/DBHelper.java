@@ -1,6 +1,6 @@
 package com.example.ticket_it.components;
 
-import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Component;
 
 import java.sql.*;
@@ -35,7 +35,7 @@ public class DBHelper {
 
     public static void addSector(Sector sector, Connection connection) {
 
-        String query = "INSERT INTO sector(sector_number, home, away, vip, event_id) VALUES(?,?,?,?,?);";
+        String query = "INSERT INTO sector(sector_number, home, away, vip) VALUES(?,?,?,?);";
 
         try (PreparedStatement preparedStatement = connection.prepareStatement(query)) {
             // adding row to event table
@@ -43,7 +43,6 @@ public class DBHelper {
             preparedStatement.setInt(2, sector.getHome());
             preparedStatement.setInt(3, sector.getAway());
             preparedStatement.setInt(4, sector.getVip());
-            preparedStatement.setInt(5, sector.getEventID());
 
             preparedStatement.executeUpdate();
 
@@ -198,6 +197,19 @@ public class DBHelper {
     public static void addUser(Connection connection, User user) {
         String query = "INSERT INTO user_table( name, surname, login, password, bank_balance) VALUES(?,?,?,?,?);";
 
+        if (!user.getName().matches("[a-zA-Z0-9]+")) {
+            throw new IllegalArgumentException("Invalid username");
+        }
+        if (!user.getSurname().matches("[a-zA-Z0-9]+")) {
+            throw new IllegalArgumentException("Invalid username");
+        }
+        if (!user.getLogin().matches("[a-zA-Z0-9]+")) {
+            throw new IllegalArgumentException("Invalid username");
+        }
+        if (!user.getPassword().matches("[a-zA-Z0-9]+")) {
+            throw new IllegalArgumentException("Invalid username");
+        }
+
         try (PreparedStatement preparedStatement = connection.prepareStatement(query)) {
             // adding row to ticket_to_buy table
             preparedStatement.setString(1, user.getName());
@@ -216,20 +228,28 @@ public class DBHelper {
     }
 
     public static void loginUser (Connection connection, String username, String password) {
-        String query = "SELECT * FROM user_table  WHERE 'login' = " + username + " ;";
+        String query = "SELECT * FROM user_table WHERE user_table.login = ? ;";
+
+        if (!username.matches("[a-zA-Z0-9]+")) {
+            throw new IllegalArgumentException("Invalid username");
+        }
 
         try {
-            Statement stmt = connection.createStatement();
-            ResultSet rs = stmt.executeQuery(query);
+            PreparedStatement statement = connection.prepareStatement(query);
+            statement.setString(1, username);
+            ResultSet rs = statement.executeQuery();
 
-            rs.next();
-
-            System.out.println(rs.getInt(1));
-            System.out.println(rs.getString(2));
-            System.out.println(rs.getString(3));
-            System.out.println(rs.getString(4));
-            System.out.println(rs.getString(5));
-            System.out.println(rs.getInt(6));
+            if (rs.next()) {
+                String passwordHash = rs.getString("password");
+                BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
+                if (passwordEncoder.matches(password, passwordHash)) {
+                    System.out.println("zalogowano");
+                } else {
+                    System.out.println("hasło jest nieprawidłowe");
+                }
+            } else {
+                System.out.println("nie znaleziono użytkownika o podanych danych");
+            }
 
         } catch (SQLException throwables) {
             throwables.printStackTrace();
