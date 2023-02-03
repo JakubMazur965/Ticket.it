@@ -1,6 +1,8 @@
 package com.example.ticket_it.controllers;
 
 import com.example.ticket_it.services.LoginService;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -14,9 +16,11 @@ public class LoginController {
 
     @PostMapping("/login")
     public String register(@RequestParam("username") String username,
-                           @RequestParam("password") String password) {
+                           @RequestParam("password") String password,
+                           HttpServletRequest request) {
 
-        loginService.loginUser(username, password);
+        HttpSession session = request.getSession();
+        loginService.loginUser(session, username, password);
 
         return "redirect:/";
     }

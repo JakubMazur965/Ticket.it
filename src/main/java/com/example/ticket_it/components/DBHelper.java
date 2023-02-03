@@ -1,5 +1,6 @@
 package com.example.ticket_it.components;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Component;
 
@@ -227,7 +228,7 @@ public class DBHelper {
         }
     }
 
-    public static void loginUser (Connection connection, String username, String password) {
+    public static boolean loginUser (Connection connection, String username, String password) {
         String query = "SELECT * FROM user_table WHERE user_table.login = ? ;";
 
         if (!username.matches("[a-zA-Z0-9]+")) {
@@ -243,7 +244,7 @@ public class DBHelper {
                 String passwordHash = rs.getString("password");
                 BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
                 if (passwordEncoder.matches(password, passwordHash)) {
-                    System.out.println("zalogowano");
+                    return true;
                 } else {
                     System.out.println("hasło jest nieprawidłowe");
                 }
@@ -254,5 +255,34 @@ public class DBHelper {
         } catch (SQLException throwables) {
             throwables.printStackTrace();
         }
+        return false;
+    }
+
+    public static User getUser(String login, Connection connection) {
+        User user = new User();
+
+        String query = "SELECT * FROM user_table WHERE user_table.login = ? ;";
+
+        if (!login.matches("[a-zA-Z0-9]+")) {
+            throw new IllegalArgumentException("Invalid username");
+        }
+
+        try {
+            PreparedStatement statement = connection.prepareStatement(query);
+            statement.setString(1, login);
+            ResultSet rs = statement.executeQuery();
+
+            rs.next();
+
+            user.setUserID(rs.getInt(1));
+            user.setName(rs.getString(2));
+            user.setSurname(rs.getString(3));
+            user.setLogin(rs.getString(4));
+            user.setPassword(rs.getString(5));
+            user.setBankBalance(6);
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+        return user;
     }
 }
