@@ -26,13 +26,13 @@
                 <ul class="navbar-nav ms-auto">
 
                     <!---------------------------------if user is not logged in --------------------------------------->
-                    <li class="nav-item">
+                    <li class="nav-item" th:if="!${isLoggedIn}">
                         <a class="nav-link active" href="/login">
                             <i class="fa-solid fa-right-to-bracket"></i>
                             Zaloguj się
                         </a>
                     </li>
-                    <li class="nav-item">
+                    <li class="nav-item" th:if="!${isLoggedIn}">
                         <a class="nav-link active" href="/register">
                             <i class="fa-solid fa-user"></i>
                             Załóż konto
@@ -41,7 +41,7 @@
                     <!------------------------------------------------------------------------------------------------->
 
                     <!---------------------------------if user is logged in ------------------------------------------->
-                    <li class="nav-item dropdown">
+                    <li class="nav-item dropdown" th:if="${isLoggedIn}">
                         <a class="nav-link dropdown-toggle" data-bs-toggle="dropdown" href="/my_account" role="button"
                            aria-haspopup="true" aria-expanded="false">Moje konto</a>
                         <div class="dropdown-menu">

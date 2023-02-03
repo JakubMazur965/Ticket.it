@@ -33,6 +33,7 @@ public class LoginService {
             session.setAttribute("user_login", user.getLogin());
             session.setAttribute("user_password", user.getPassword());
             session.setAttribute("user_bank_balance", user.getBankBalance());
+            session.setAttribute("isLoggedIn", true);
         }
 
         Utils.endDBConnection(connection);
