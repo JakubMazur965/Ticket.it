@@ -1,5 +1,6 @@
 package com.example.ticket_it.components;
 
+import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Component;
@@ -16,7 +17,7 @@ public class DBHelper {
         String query = "INSERT INTO event(event_id, name, event_date, event_start, event_end, organizer, event_class) VALUES(?,?,?,?,?,?,?);";
 
         try (PreparedStatement preparedStatement = connection.prepareStatement(query)) {
-            // adding row to event table
+            // adding row to event_table
             preparedStatement.setInt(1, event.getEventID());
             preparedStatement.setString(2, event.getName());
             preparedStatement.setDate(3, event.getEventDate());
@@ -39,7 +40,7 @@ public class DBHelper {
         String query = "INSERT INTO sector(sector_number, home, away, vip) VALUES(?,?,?,?);";
 
         try (PreparedStatement preparedStatement = connection.prepareStatement(query)) {
-            // adding row to event table
+            // adding row to event_table
             preparedStatement.setInt(1, sector.getSectorNumber());
             preparedStatement.setInt(2, sector.getHome());
             preparedStatement.setInt(3, sector.getAway());
@@ -228,7 +229,7 @@ public class DBHelper {
         }
     }
 
-    public static boolean loginUser (Connection connection, String username, String password) {
+    public static boolean loginUser(Connection connection, String username, String password) {
         String query = "SELECT * FROM user_table WHERE user_table.login = ? ;";
 
         if (!username.matches("[a-zA-Z0-9]+")) {
@@ -279,10 +280,46 @@ public class DBHelper {
             user.setSurname(rs.getString(3));
             user.setLogin(rs.getString(4));
             user.setPassword(rs.getString(5));
-            user.setBankBalance(6);
+            user.setBankBalance(rs.getInt(6));
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
         return user;
+    }
+
+    public static List<Seat> getSeatsFromSector(Connection connection, int sectorNumber) {
+        List<Seat> seats = new ArrayList<>();
+        String query = "SELECT * FROM seat WHERE seat.sector_number = ? ;";
+
+        try {
+            PreparedStatement statement = connection.prepareStatement(query);
+            statement.setInt(1, sectorNumber);
+            ResultSet rs = statement.executeQuery();
+
+            while (rs.next()) {
+                Seat seat = new Seat();
+                seat.setSeatNumber(rs.getInt(1));
+                seat.setRowNumber(rs.getInt(2));
+                seat.setSectorNumber(rs.getInt(3));
+                seat.setSeatID(4);
+                seats.add(seat);
+            }
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+
+        return seats;
+    }
+
+    public static void changeAccountMoney(HttpSession httpSession, Connection connection, int amount) {
+        String query = "UPDATE user_table SET bank_balance = " + amount + " WHERE user_table.login = ? ;";
+
+        try {
+            PreparedStatement statement = connection.prepareStatement(query);
+            statement.setString(1, (String) httpSession.getAttribute("user_login"));
+            statement.executeUpdate();
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
     }
 }

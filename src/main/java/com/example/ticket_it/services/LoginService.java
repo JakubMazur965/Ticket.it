@@ -27,12 +27,12 @@ public class LoginService {
         if (logger) {
             User user = DBHelper.getUser(username, connection);
             userSession.setUser(user);
-            session.setAttribute("user_id", user.getName());
+            session.setAttribute("user_id", user.getUserID());
             session.setAttribute("user_name", user.getName());
-            session.setAttribute("user_surname", user.getName());
-            session.setAttribute("user_login", user.getName());
-            session.setAttribute("user_password", user.getName());
-            session.setAttribute("user_bank_balance", user.getName());
+            session.setAttribute("user_surname", user.getSurname());
+            session.setAttribute("user_login", user.getLogin());
+            session.setAttribute("user_password", user.getPassword());
+            session.setAttribute("user_bank_balance", user.getBankBalance());
         }
 
         Utils.endDBConnection(connection);
