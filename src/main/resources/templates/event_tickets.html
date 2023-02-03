@@ -34,15 +34,12 @@
                             </tr>
                             </thead>
                             <tbody>
-                            <!-- todo: podmienic na tickety w danych sektorach
-                            <tr th:each="event : ${events}">
-                                <th th:text="${event.name}" scope="row"></th>
-                                <th th:text="${event.organizer}" scope="row"></th>
-                                <th th:text="${event.eventDate}" scope="row"></th>
-                                <th th:text="${event.eventStart} + ' - ' + ${event.eventEnd}" scope="row"></th>
+                            <tr th:each="ticket : ${ticketsSector1}">
+                                <th th:text="${ticket.seatID}" scope="row"></th>
+                                <th th:text="${ticket.price}" scope="row"></th>
+                                <th th:text="${ticket.price}" scope="row"></th>
                                 <td><a th:href="@{/ticket/{id}(id=${ticket.ticketToButID})}" class="btn btn-secondary">+</a></td>
                             </tr>
-                            -->
                             </tbody>
                         </table>
                     </div>
@@ -68,15 +65,12 @@
                             </tr>
                             </thead>
                             <tbody>
-                            <!-- todo: podmienic na tickety w danych sektorach
-                            <tr th:each="event : ${events}">
-                                <th th:text="${event.name}" scope="row"></th>
-                                <th th:text="${event.organizer}" scope="row"></th>
-                                <th th:text="${event.eventDate}" scope="row"></th>
-                                <th th:text="${event.eventStart} + ' - ' + ${event.eventEnd}" scope="row"></th>
+                            <tr th:each="ticket : ${ticketsSector2}">
+                                <th th:text="${ticket.seatID}" scope="row"></th>
+                                <th th:text="${ticket.price}" scope="row"></th>
+                                <th th:text="${ticket.price}" scope="row"></th>
                                 <td><a th:href="@{/ticket/{id}(id=${ticket.ticketToButID})}" class="btn btn-secondary">+</a></td>
                             </tr>
-                            -->
                             </tbody>
                         </table>
                     </div>
@@ -102,15 +96,12 @@
                             </tr>
                             </thead>
                             <tbody>
-                            <!-- todo: podmienic na tickety w danych sektorach
-                            <tr th:each="event : ${events}">
-                                <th th:text="${event.name}" scope="row"></th>
-                                <th th:text="${event.organizer}" scope="row"></th>
-                                <th th:text="${event.eventDate}" scope="row"></th>
-                                <th th:text="${event.eventStart} + ' - ' + ${event.eventEnd}" scope="row"></th>
+                            <tr th:each="ticket : ${ticketsSector3}">
+                                <th th:text="${ticket.seatID}" scope="row"></th>
+                                <th th:text="${ticket.price}" scope="row"></th>
+                                <th th:text="${ticket.price}" scope="row"></th>
                                 <td><a th:href="@{/ticket/{id}(id=${ticket.ticketToButID})}" class="btn btn-secondary">+</a></td>
                             </tr>
-                            -->
                             </tbody>
                         </table>
                     </div>
@@ -136,15 +127,12 @@
                             </tr>
                             </thead>
                             <tbody>
-                            <!-- todo: podmienic na tickety w danych sektorach
-                            <tr th:each="event : ${events}">
-                                <th th:text="${event.name}" scope="row"></th>
-                                <th th:text="${event.organizer}" scope="row"></th>
-                                <th th:text="${event.eventDate}" scope="row"></th>
-                                <th th:text="${event.eventStart} + ' - ' + ${event.eventEnd}" scope="row"></th>
+                            <tr th:each="ticket : ${ticketsSector4}">
+                                <th th:text="${ticket.seatID}" scope="row"></th>
+                                <th th:text="${ticket.price}" scope="row"></th>
+                                <th th:text="${ticket.price}" scope="row"></th>
                                 <td><a th:href="@{/ticket/{id}(id=${ticket.ticketToButID})}" class="btn btn-secondary">+</a></td>
                             </tr>
-                            -->
                             </tbody>
                         </table>
                     </div>

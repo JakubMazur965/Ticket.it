@@ -311,6 +311,32 @@ public class DBHelper {
         return seats;
     }
 
+    public static List<Ticket_To_Buy> getTicketToBuyByEventIdAndSectorNumber (Connection connection, int eventId, int sectorNumber) {
+        List<Ticket_To_Buy> tickets = new ArrayList<>();
+        String query = "SELECT * FROM ticket_to_buy WHERE ticket_to_buy.event_id = ? AND ticket_to_buy.sector_number = ?;";
+
+        try {
+            PreparedStatement statement = connection.prepareStatement(query);
+            statement.setInt(1, eventId);
+            statement.setInt(2, sectorNumber);
+            ResultSet rs = statement.executeQuery();
+
+            while (rs.next()) {
+                Ticket_To_Buy ticket = new Ticket_To_Buy();
+                ticket.setSectorNumber(rs.getInt(1));
+                ticket.setEventID(rs.getInt(2));
+                ticket.setPrice(rs.getInt(3));
+                ticket.setIsBusy(rs.getInt(4));
+                ticket.setSeatID(rs.getInt(5));
+                ticket.setTicketToButID(rs.getInt(6));
+                tickets.add(ticket);
+            }
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+        return tickets;
+    }
+
     public static void changeAccountMoney(HttpSession httpSession, Connection connection, int amount) {
         String query = "UPDATE user_table SET bank_balance = " + amount + " WHERE user_table.login = ? ;";
 

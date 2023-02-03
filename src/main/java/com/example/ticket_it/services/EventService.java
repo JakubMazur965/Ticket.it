@@ -8,6 +8,7 @@ import com.jcraft.jsch.Session;
 import org.springframework.stereotype.Service;
 
 import java.sql.Connection;
+import java.util.ArrayList;
 import java.util.List;
 
 
@@ -26,14 +27,13 @@ public class EventService {
 
     }
 
-    public static List<Ticket_To_Buy> getAllTickets() {
-        List <Ticket_To_Buy> tickets = null;
-
-        /*Session session = Utils.DBSession();
+    public static List<Ticket_To_Buy> getTicketsBySector(int eventId, int sectorNumber) {
+        List <Ticket_To_Buy> tickets = new ArrayList<>();
+        Session session = Utils.DBSession();
         Connection connection = Utils.DBConnection(session);
-        tickets = DBHelper.(connection);
+        tickets = DBHelper.getTicketToBuyByEventIdAndSectorNumber(connection, eventId, sectorNumber);
         Utils.endDBConnection(connection);
-        Utils.endDBSession(session);*/
+        Utils.endDBSession(session);
 
         return tickets;
     }

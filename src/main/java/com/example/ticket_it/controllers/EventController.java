@@ -15,7 +15,10 @@ public class EventController {
     @GetMapping("/event/{id}")
     public String showEventDetails(@PathVariable int id, Model model) {
         model.addAttribute("event", eventService.getEventByID(id));
-        model.addAttribute("tickets", eventService.getAllTickets());
+        model.addAttribute("ticketsSector1", eventService.getTicketsBySector(id, 1));
+        model.addAttribute("ticketsSector2", eventService.getTicketsBySector(id, 2));
+        model.addAttribute("ticketsSector3", eventService.getTicketsBySector(id, 3));
+        model.addAttribute("ticketsSector4", eventService.getTicketsBySector(id, 4));
         return "event_tickets.html";
     }
 }
