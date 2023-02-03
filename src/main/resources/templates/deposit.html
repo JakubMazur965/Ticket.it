@@ -8,7 +8,9 @@
         <form th:action="@{/deposit}" method="post">
             <h4>Aktualny stan konta</h4>
             <!-- todo: stan konta z bazy -->
-            <span></span>
+            <span>
+                <h5 th:text="${bankBalance}"></h5>
+            </span>
             <br>
             <div class="m-2 mt-4">
                 <input type="number" name="amount" placeholder="Kwota"/>

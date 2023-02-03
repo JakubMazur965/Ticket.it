@@ -1,6 +1,7 @@
 package com.example.ticket_it.controllers;
 
 import com.example.ticket_it.services.MainPageService;
+import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -11,6 +12,8 @@ public class MainPageController {
 
     @Autowired
     MainPageService mainPageService;
+    @Autowired
+    HttpSession httpSession;
 
     @RequestMapping("/")
     public String mainPage(Model model) {
@@ -40,6 +43,7 @@ public class MainPageController {
 
     @RequestMapping("/deposit")
     public String depositPage(Model model) {
+        model.addAttribute("bankBalance", httpSession.getAttribute("user_bank_balance"));
         return "deposit.html";
     }
 }
