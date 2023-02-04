@@ -35,8 +35,8 @@
                             </thead>
                             <tbody>
                             <tr th:each="ticket : ${ticketsSector1}">
-                                <th th:text="${ticket.seatID}" scope="row"></th>
-                                <th th:text="${ticket.price}" scope="row"></th>
+                                <th th:each="seat : ${seatsSector1}" th:if="${seat.seatID == ticket.seatID}" th:text="${seat.seatNumber}" scope="row"></th>
+                                <th th:each="seat : ${seatsSector1}" th:if="${seat.seatID == ticket.seatID}" th:text="${seat.rowNumber}" scope="row"></th>
                                 <th th:text="${ticket.price}" scope="row"></th>
                                 <td><a th:href="@{/ticket/{id}(id=${ticket.ticketToButID})}" class="btn btn-secondary">+</a></td>
                             </tr>
@@ -66,8 +66,8 @@
                             </thead>
                             <tbody>
                             <tr th:each="ticket : ${ticketsSector2}">
-                                <th th:text="${ticket.seatID}" scope="row"></th>
-                                <th th:text="${ticket.price}" scope="row"></th>
+                                <th th:each="seat : ${seatsSector2}" th:if="${seat.seatID == ticket.seatID}" th:text="${seat.seatNumber}" scope="row"></th>
+                                <th th:each="seat : ${seatsSector2}" th:if="${seat.seatID == ticket.seatID}" th:text="${seat.rowNumber}" scope="row"></th>
                                 <th th:text="${ticket.price}" scope="row"></th>
                                 <td><a th:href="@{/ticket/{id}(id=${ticket.ticketToButID})}" class="btn btn-secondary">+</a></td>
                             </tr>
@@ -97,8 +97,8 @@
                             </thead>
                             <tbody>
                             <tr th:each="ticket : ${ticketsSector3}">
-                                <th th:text="${ticket.seatID}" scope="row"></th>
-                                <th th:text="${ticket.price}" scope="row"></th>
+                                <th th:each="seat : ${seatsSector3}" th:if="${seat.seatID == ticket.seatID}" th:text="${seat.seatNumber}" scope="row"></th>
+                                <th th:each="seat : ${seatsSector3}" th:if="${seat.seatID == ticket.seatID}" th:text="${seat.rowNumber}" scope="row"></th>
                                 <th th:text="${ticket.price}" scope="row"></th>
                                 <td><a th:href="@{/ticket/{id}(id=${ticket.ticketToButID})}" class="btn btn-secondary">+</a></td>
                             </tr>
@@ -128,8 +128,8 @@
                             </thead>
                             <tbody>
                             <tr th:each="ticket : ${ticketsSector4}">
-                                <th th:text="${ticket.seatID}" scope="row"></th>
-                                <th th:text="${ticket.price}" scope="row"></th>
+                                <th th:each="seat : ${seatsSector4}" th:if="${seat.seatID == ticket.seatID}" th:text="${seat.seatNumber}" scope="row"></th>
+                                <th th:each="seat : ${seatsSector4}" th:if="${seat.seatID == ticket.seatID}" th:text="${seat.rowNumber}" scope="row"></th>
                                 <th th:text="${ticket.price}" scope="row"></th>
                                 <td><a th:href="@{/ticket/{id}(id=${ticket.ticketToButID})}" class="btn btn-secondary">+</a></td>
                             </tr>

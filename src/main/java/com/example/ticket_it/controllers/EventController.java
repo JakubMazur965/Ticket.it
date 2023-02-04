@@ -19,6 +19,10 @@ public class EventController {
         model.addAttribute("ticketsSector2", eventService.getTicketsBySector(id, 2));
         model.addAttribute("ticketsSector3", eventService.getTicketsBySector(id, 3));
         model.addAttribute("ticketsSector4", eventService.getTicketsBySector(id, 4));
+        model.addAttribute("seatsSector1", eventService.getSeatBySector(1));
+        model.addAttribute("seatsSector2", eventService.getSeatBySector(2));
+        model.addAttribute("seatsSector3", eventService.getSeatBySector(3));
+        model.addAttribute("seatsSector4", eventService.getSeatBySector(4));
         return "event_tickets.html";
     }
 }

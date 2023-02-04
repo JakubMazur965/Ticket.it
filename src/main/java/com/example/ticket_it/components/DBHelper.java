@@ -287,31 +287,7 @@ public class DBHelper {
         return user;
     }
 
-    public static List<Seat> getSeatsFromSector(Connection connection, int sectorNumber) {
-        List<Seat> seats = new ArrayList<>();
-        String query = "SELECT * FROM seat WHERE seat.sector_number = ? ;";
-
-        try {
-            PreparedStatement statement = connection.prepareStatement(query);
-            statement.setInt(1, sectorNumber);
-            ResultSet rs = statement.executeQuery();
-
-            while (rs.next()) {
-                Seat seat = new Seat();
-                seat.setSeatNumber(rs.getInt(1));
-                seat.setRowNumber(rs.getInt(2));
-                seat.setSectorNumber(rs.getInt(3));
-                seat.setSeatID(4);
-                seats.add(seat);
-            }
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
-        }
-
-        return seats;
-    }
-
-    public static List<Ticket_To_Buy> getTicketToBuyByEventIdAndSectorNumber (Connection connection, int eventId, int sectorNumber) {
+    public List<Ticket_To_Buy> getTicketToBuyByEventIdAndSectorNumber (Connection connection, int eventId, int sectorNumber) {
         List<Ticket_To_Buy> tickets = new ArrayList<>();
         String query = "SELECT * FROM ticket_to_buy WHERE ticket_to_buy.event_id = ? AND ticket_to_buy.sector_number = ?;";
 
@@ -347,5 +323,28 @@ public class DBHelper {
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
+    }
+
+    public List<Seat> getSeatsBySectorNumber (int sectorNumber, Connection connection) {
+        List<Seat> seats = new ArrayList<>();
+        String query = "SELECT * FROM seat WHERE seat.sector_number = ? ;";
+
+        try {
+            PreparedStatement statement = connection.prepareStatement(query);
+            statement.setInt(1, sectorNumber);
+            ResultSet rs = statement.executeQuery();
+
+            while (rs.next()) {
+                Seat seat = new Seat();
+                seat.setSeatNumber(rs.getInt(1));
+                seat.setRowNumber(rs.getInt(2));
+                seat.setSectorNumber(rs.getInt(3));
+                seat.setSeatID(rs.getInt(4));
+                seats.add(seat);
+            }
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+        return seats;
     }
 }

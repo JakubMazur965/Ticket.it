@@ -78,7 +78,6 @@ public class SSHTunnel {
         Connection connection = null;
         try {
             connection = DriverManager.getConnection(dataSourceSshUrl, dataSourceSshUser, dataSourcePassword);
-            System.out.println("Connection has been established successfully");
         } catch (SQLException e) {
             System.out.println(e.getMessage());
         }
