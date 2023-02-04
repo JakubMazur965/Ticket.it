@@ -14,7 +14,7 @@ import java.util.List;
 
 @Service
 public class EventService {
-    public static Event getEventByID (int id) {
+    public Event getEventByID (int id) {
         Event event;
 
         Session session = Utils.DBSession();
@@ -27,7 +27,7 @@ public class EventService {
 
     }
 
-    public static List<Ticket_To_Buy> getTicketsBySector(int eventId, int sectorNumber) {
+    public List<Ticket_To_Buy> getTicketsBySector(int eventId, int sectorNumber) {
         List <Ticket_To_Buy> tickets = new ArrayList<>();
         Session session = Utils.DBSession();
         Connection connection = Utils.DBConnection(session);
