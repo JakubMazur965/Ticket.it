@@ -8,6 +8,8 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 @Controller
 public class Ticket_To_BuyController {
@@ -26,5 +28,17 @@ public class Ticket_To_BuyController {
         model.addAttribute("seat", ticket_to_buyService.getSeatByID(ticket.getSeatID()));
 
         return "ticket_to_buy.html";
+    }
+
+    @PostMapping("/ticket/{id}")
+    public String handleFormSubmit(@RequestParam(required = false) String deposit,
+                                   @RequestParam(required = false) String buyTicket) {
+
+        if (deposit != null) {
+            return "redirect:/deposit";
+        } else if (buyTicket != null) {
+            return "redirect:/";
+        }
+        return "redirect:/";
     }
 }
