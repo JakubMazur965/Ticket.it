@@ -5,11 +5,10 @@
         <div class="card bg-light mb-3">
             <div class="card-header"><h1 th:text="'Bilet na wydarzenie: ' + ${event.name} + ', ' + ${event.organizer}"></h1></div>
             <div class="card-body">
-                <!-- todo: dane biletu, podmienić z bazy danych
-                <h2 th:text="${}"></h2>
-                <h3 th:text="${}"></h3>
-                <h3 th:text="${}"></h3>
-                -->
+                <h3> Numer sektora: <span th:text="${ticket.sectorNumber}"></span></h3>
+                <h3> Numer rzędu: <span th:text="${seat.rowNumber}"></span></h3>
+                <h3> Numer miejsca: <span th:text="${seat.seatNumber}"></span></h3>
+                <h3> Cena biletu: <span th:text="${ticket.price}"></span> zł</h3>
             </div>
         </div>
     </div>

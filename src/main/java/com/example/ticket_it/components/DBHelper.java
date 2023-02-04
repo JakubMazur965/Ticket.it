@@ -347,4 +347,44 @@ public class DBHelper {
         }
         return seats;
     }
+
+    public Ticket_To_Buy getTicketToButById (int id, Connection connection) {
+        Ticket_To_Buy ticket = new Ticket_To_Buy();
+        String query = "SELECT * FROM ticket_to_buy WHERE ticket_to_buy.ticket_to_buy_id = ? ;";
+        try {
+            PreparedStatement statement = connection.prepareStatement(query);
+            statement.setInt(1, id);
+            ResultSet rs = statement.executeQuery();
+
+            rs.next();
+            ticket.setSectorNumber(rs.getInt(1));
+            ticket.setEventID(rs.getInt(2));
+            ticket.setPrice(rs.getInt(3));
+            ticket.setIsBusy(rs.getInt(4));
+            ticket.setSeatID(rs.getInt(5));
+            ticket.setTicketToButID(rs.getInt(6));
+
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+        return ticket;
+    }
+
+    public Seat getSeatById (int id, Connection connection) {
+        Seat seat = new Seat();
+        String query = "SELECT * FROM seat WHERE seat.seat_id = ? ;";
+        try {
+            PreparedStatement statement = connection.prepareStatement(query);
+            statement.setInt(1, id);
+            ResultSet rs = statement.executeQuery();
+
+            rs.next();
+            seat.setSeatNumber(rs.getInt(1));
+            seat.setRowNumber(rs.getInt(2));
+
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+        return seat;
+    }
 }
