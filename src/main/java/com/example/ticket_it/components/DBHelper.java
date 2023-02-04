@@ -126,7 +126,7 @@ public class DBHelper {
 
     public static void addTicketToBuy(Connection connection, Ticket_To_Buy ticket_to_buy) {
 
-        String query = "INSERT INTO ticket_to_buy(sector_number, event_id, price, is_busy, seat_id, ticket_to_but_id) VALUES(?,?,?,?,?,?);";
+        String query = "INSERT INTO ticket_to_buy(sector_number, event_id, price, is_busy, seat_id, ticket_to_buy_id) VALUES(?,?,?,?,?,?);";
 
         try (PreparedStatement preparedStatement = connection.prepareStatement(query)) {
             // adding row to ticket_to_buy table
