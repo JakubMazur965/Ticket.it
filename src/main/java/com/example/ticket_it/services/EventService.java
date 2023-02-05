@@ -28,6 +28,17 @@ public class EventService {
 
     }
 
+    public String homeAwayVIP(int eventId, int sectorNumber) {
+        String hav;
+        Session session = Utils.DBSession();
+        Connection connection = Utils.DBConnection(session);
+        hav = dbHelper.homeAwayVIP(connection, eventId, sectorNumber);
+        Utils.endDBConnection(connection);
+        Utils.endDBSession(session);
+
+        return hav;
+    }
+
     public List<Ticket_To_Buy> getTicketsBySector(int eventId, int sectorNumber) {
         List <Ticket_To_Buy> tickets;
         Session session = Utils.DBSession();

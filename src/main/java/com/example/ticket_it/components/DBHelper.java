@@ -383,4 +383,26 @@ public class DBHelper {
         }
         return seat;
     }
+
+    public String homeAwayVIP (Connection connection, int eventId, int sectorNumber) {
+        String hav = "";
+        String query = "SELECT * FROM sector, event WHERE event.event_id = ? AND sector.sector_number = ? ;";
+        try {
+            PreparedStatement statement = connection.prepareStatement(query);
+            statement.setInt(1, eventId);
+            statement.setInt(2, sectorNumber);
+            ResultSet rs = statement.executeQuery();
+
+            rs.next();
+
+            if (rs.getInt(2) == 1) {hav = "h";}
+            else if (rs.getInt(3) == 1) {hav = "a";}
+            else if (rs.getInt(4) == 1) {hav = "v";}
+
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+
+        return hav;
+    }
 }

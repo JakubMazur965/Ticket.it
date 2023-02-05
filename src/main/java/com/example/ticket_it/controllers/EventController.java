@@ -25,6 +25,10 @@ public class EventController {
         model.addAttribute("user_bank_balance", httpSession.getAttribute("user_bank_balance"));
 
         model.addAttribute("event", eventService.getEventByID(id));
+        model.addAttribute("hav1", eventService.homeAwayVIP(id, 1));
+        model.addAttribute("hav2", eventService.homeAwayVIP(id, 2));
+        model.addAttribute("hav3", eventService.homeAwayVIP(id, 3));
+        model.addAttribute("hav4", eventService.homeAwayVIP(id, 4));
         model.addAttribute("ticketsSector1", eventService.getTicketsBySector(id, 1));
         model.addAttribute("ticketsSector2", eventService.getTicketsBySector(id, 2));
         model.addAttribute("ticketsSector3", eventService.getTicketsBySector(id, 3));

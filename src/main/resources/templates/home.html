@@ -18,7 +18,10 @@
                 <th th:text="${event.organizer}" scope="row"></th>
                 <th th:text="${event.eventDate}" scope="row"></th>
                 <th th:text="${event.eventStart} + ' - ' + ${event.eventEnd}" scope="row"></th>
-                <td><a th:href="@{/event/{id}(id=${event.eventID})}" class="btn btn-secondary">+</a></td>
+                <td>
+                    <a th:if="${isLoggedIn}" th:href="@{/event/{id}(id=${event.eventID})}" class="btn btn-secondary">+</a>
+                    <a th:if="!${isLoggedIn}" th:href="@{/login}" class="btn btn-secondary">+</a>
+                </td>
             </tr>
             </tbody>
         </table>
