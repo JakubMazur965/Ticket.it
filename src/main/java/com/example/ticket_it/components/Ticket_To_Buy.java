@@ -9,7 +9,7 @@ public class Ticket_To_Buy {
     private int price;
     private int isBusy;
     private int seatID;
-    private int ticketToButID;
+    private int ticketToBuyID;
 
     public int getSectorNumber() {
         return sectorNumber;
@@ -51,11 +51,11 @@ public class Ticket_To_Buy {
         this.seatID = seatID;
     }
 
-    public int getTicketToButID() {
-        return ticketToButID;
+    public int getTicketToBuyID() {
+        return ticketToBuyID;
     }
 
-    public void setTicketToButID(int ticketToButID) {
-        this.ticketToButID = ticketToButID;
+    public void setTicketToBuyID(int ticketToBuyID) {
+        this.ticketToBuyID = ticketToBuyID;
     }
 }

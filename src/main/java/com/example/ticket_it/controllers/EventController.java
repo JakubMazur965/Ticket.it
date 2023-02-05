@@ -1,6 +1,7 @@
 package com.example.ticket_it.controllers;
 
 import com.example.ticket_it.services.EventService;
+import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -12,8 +13,17 @@ public class EventController {
     @Autowired
     EventService eventService;
 
+    @Autowired
+    HttpSession httpSession;
+
     @GetMapping("/event/{id}")
     public String showEventDetails(@PathVariable int id, Model model) {
+        model.addAttribute("isLoggedIn", httpSession.getAttribute("isLoggedIn"));
+        model.addAttribute("user_name", httpSession.getAttribute("user_name"));
+        model.addAttribute("user_surname", httpSession.getAttribute("user_surname"));
+        model.addAttribute("user_login", httpSession.getAttribute("user_login"));
+        model.addAttribute("user_bank_balance", httpSession.getAttribute("user_bank_balance"));
+
         model.addAttribute("event", eventService.getEventByID(id));
         model.addAttribute("ticketsSector1", eventService.getTicketsBySector(id, 1));
         model.addAttribute("ticketsSector2", eventService.getTicketsBySector(id, 2));

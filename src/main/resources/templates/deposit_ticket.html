@@ -5,7 +5,7 @@
         <h1>Depozyt</h1>
         <hr>
         <br>
-        <form th:action="@{/deposit}" method="post">
+        <form th:action="@{/deposit/{id}(id=${ticket.ticketToBuyID})}" method="post">
             <h4>Aktualny stan konta</h4>
             <span>
                 <h5 th:text="${user_bank_balance} + ' PLN'"></h5>

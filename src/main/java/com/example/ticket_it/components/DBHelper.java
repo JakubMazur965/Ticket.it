@@ -1,7 +1,6 @@
 package com.example.ticket_it.components;
 
 import jakarta.servlet.http.HttpSession;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Component;
 
@@ -135,7 +134,7 @@ public class DBHelper {
             preparedStatement.setInt(3, ticket_to_buy.getPrice());
             preparedStatement.setInt(4, ticket_to_buy.getIsBusy());
             preparedStatement.setInt(5, ticket_to_buy.getSeatID());
-            preparedStatement.setInt(6, ticket_to_buy.getTicketToButID());
+            preparedStatement.setInt(6, ticket_to_buy.getTicketToBuyID());
 
             preparedStatement.executeUpdate();
 
@@ -199,17 +198,14 @@ public class DBHelper {
     public static void addUser(Connection connection, User user) {
         String query = "INSERT INTO user_table( name, surname, login, password, bank_balance) VALUES(?,?,?,?,?);";
 
-        if (!user.getName().matches("[a-zA-Z0-9]+")) {
-            throw new IllegalArgumentException("Invalid username");
+        if (!user.getName().matches("[a-zA-Z]+")) {
+            throw new IllegalArgumentException("Invalid name.");
         }
-        if (!user.getSurname().matches("[a-zA-Z0-9]+")) {
-            throw new IllegalArgumentException("Invalid username");
+        if (!user.getSurname().matches("[a-zA-Z]+")) {
+            throw new IllegalArgumentException("Invalid surname.");
         }
         if (!user.getLogin().matches("[a-zA-Z0-9]+")) {
-            throw new IllegalArgumentException("Invalid username");
-        }
-        if (!user.getPassword().matches("[a-zA-Z0-9]+")) {
-            throw new IllegalArgumentException("Invalid username");
+            throw new IllegalArgumentException("Invalid username.");
         }
 
         try (PreparedStatement preparedStatement = connection.prepareStatement(query)) {
@@ -222,7 +218,7 @@ public class DBHelper {
 
             preparedStatement.executeUpdate();
 
-            System.out.println("The row has been added");
+            System.out.println("The row has been added.");
 
         } catch (SQLException e) {
             System.out.println(e.getMessage());
@@ -233,7 +229,7 @@ public class DBHelper {
         String query = "SELECT * FROM user_table WHERE user_table.login = ? ;";
 
         if (!username.matches("[a-zA-Z0-9]+")) {
-            throw new IllegalArgumentException("Invalid username");
+            throw new IllegalArgumentException("Invalid username.");
         }
 
         try {
@@ -265,7 +261,7 @@ public class DBHelper {
         String query = "SELECT * FROM user_table WHERE user_table.login = ? ;";
 
         if (!login.matches("[a-zA-Z0-9]+")) {
-            throw new IllegalArgumentException("Invalid username");
+            throw new IllegalArgumentException("Invalid username.");
         }
 
         try {
@@ -304,7 +300,7 @@ public class DBHelper {
                 ticket.setPrice(rs.getInt(3));
                 ticket.setIsBusy(rs.getInt(4));
                 ticket.setSeatID(rs.getInt(5));
-                ticket.setTicketToButID(rs.getInt(6));
+                ticket.setTicketToBuyID(rs.getInt(6));
                 tickets.add(ticket);
             }
         } catch (SQLException e) {
@@ -348,7 +344,7 @@ public class DBHelper {
         return seats;
     }
 
-    public Ticket_To_Buy getTicketToButById (int id, Connection connection) {
+    public Ticket_To_Buy getTicketToBuyById (int id, Connection connection) {
         Ticket_To_Buy ticket = new Ticket_To_Buy();
         String query = "SELECT * FROM ticket_to_buy WHERE ticket_to_buy.ticket_to_buy_id = ? ;";
         try {
@@ -362,7 +358,7 @@ public class DBHelper {
             ticket.setPrice(rs.getInt(3));
             ticket.setIsBusy(rs.getInt(4));
             ticket.setSeatID(rs.getInt(5));
-            ticket.setTicketToButID(rs.getInt(6));
+            ticket.setTicketToBuyID(rs.getInt(6));
 
         } catch (SQLException e) {
             throw new RuntimeException(e);

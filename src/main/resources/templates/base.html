@@ -23,35 +23,41 @@
                 <span class="navbar-toggler-icon"></span>
             </button>
             <div class="collapse navbar-collapse" id="navbarColor02">
-                <ul class="navbar-nav ms-auto">
-
                     <!---------------------------------if user is not logged in --------------------------------------->
-                    <li class="nav-item" th:if="!${isLoggedIn}">
-                        <a class="nav-link active" href="/login">
-                            <i class="fa-solid fa-right-to-bracket"></i>
-                            Zaloguj się
-                        </a>
-                    </li>
-                    <li class="nav-item" th:if="!${isLoggedIn}">
-                        <a class="nav-link active" href="/register">
-                            <i class="fa-solid fa-user"></i>
-                            Załóż konto
-                        </a>
-                    </li>
+                    <ul class="navbar-nav ms-auto mx-5 px-1" th:if="!${isLoggedIn}">
+                        <li class="nav-item">
+                            <a class="nav-link active" href="/login">
+                                <i class="fa-solid fa-right-to-bracket"></i>
+                                Zaloguj się
+                            </a>
+                        </li>
+                        <li class="nav-item" th:if="!${isLoggedIn}">
+                            <a class="nav-link active" href="/register">
+                                <i class="fa-solid fa-user"></i>
+                                Załóż konto
+                            </a>
+                        </li>
+                    </ul>
                     <!------------------------------------------------------------------------------------------------->
 
                     <!---------------------------------if user is logged in ------------------------------------------->
-                    <li class="nav-item dropdown" th:if="${isLoggedIn}">
-                        <a class="nav-link dropdown-toggle" data-bs-toggle="dropdown" href="/my_account" role="button"
-                           aria-haspopup="true" aria-expanded="false">Moje konto</a>
-                        <div class="dropdown-menu">
-                            <a class="dropdown-item" href="/payment_history">Historia transakcji</a>
-                            <a class="dropdown-item" href="/ticket_history">Historia biletów</a>
-                            <a class="dropdown-item" href="/deposit">Depozyt</a>
-                            <div class="dropdown-divider"></div>
-                            <a class="dropdown-item" href="/logout">Wyloguj</a>
-                        </div>
-                    </li>
+                    <div class="navbar-nav ms-auto mx-5 px-1" th:if="${isLoggedIn}">
+                        <p class="navbar-text mx-1 my-0" th:text="'Witaj ' + ${user_name} + ' ' + ${user_surname}
+                        + ' (' + ${user_login} + ')! Stan Twojego konta: ' + ${user_bank_balance} + ' PLN'"></p>
+                        <ul class="navbar-nav mx-1">
+                            <li class="nav-item dropdown">
+                                <a class="nav-link dropdown-toggle" data-bs-toggle="dropdown" href="/my_account" role="button"
+                                   aria-haspopup="true" aria-expanded="false">Moje konto</a>
+                                <div class="dropdown-menu">
+                                    <a class="dropdown-item" href="/payment_history">Historia transakcji</a>
+                                    <a class="dropdown-item" href="/ticket_history">Historia biletów</a>
+                                    <a class="dropdown-item" href="/deposit">Depozyt</a>
+                                    <div class="dropdown-divider"></div>
+                                    <a class="dropdown-item" href="/logout">Wyloguj</a>
+                                </div>
+                            </li>
+                        </ul>
+                    </div>
                     <!------------------------------------------------------------------------------------------------->
                 </ul>
             </div>

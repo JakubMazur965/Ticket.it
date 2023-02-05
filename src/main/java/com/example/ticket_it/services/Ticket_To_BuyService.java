@@ -21,7 +21,7 @@ public class Ticket_To_BuyService  {
 
         Session session = Utils.DBSession();
         Connection connection = Utils.DBConnection(session);
-        ticket_to_buy = dbHelper.getTicketToButById(id, connection);
+        ticket_to_buy = dbHelper.getTicketToBuyById(id, connection);
         Utils.endDBConnection(connection);
         Utils.endDBSession(session);
 

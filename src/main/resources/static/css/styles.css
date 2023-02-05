@@ -47,3 +47,12 @@ form input {
     color: white;
     font-weight: bold;
 }
+
+.div-content {
+    display: flex;
+    justify-content: center;
+}
+
+.accordion-body {
+    display: table-caption;
+}

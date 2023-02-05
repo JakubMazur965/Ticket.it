@@ -82,7 +82,7 @@ public class Utils {
             int price = (event.getEventClass() * 100) * ((sector.getHome() * 1) + (sector.getAway() * 2) + (sector.getVip() * 5));
             ticket_to_buy.setPrice(price);
 
-            ticket_to_buy.setTicketToButID(i);
+            ticket_to_buy.setTicketToBuyID(i);
 
             DBHelper.addTicketToBuy(connection, ticket_to_buy);
         }

@@ -8,10 +8,12 @@
                 <h3> Numer sektora: <span th:text="${ticket.sectorNumber}"></span></h3>
                 <h3> Numer rzędu: <span th:text="${seat.rowNumber}"></span></h3>
                 <h3> Numer miejsca: <span th:text="${seat.seatNumber}"></span></h3>
-                <h3> Cena biletu: <span th:text="${ticket.price}"></span> zł</h3>
+                <h3> Cena biletu: <span th:text="${ticket.price} + ' PLN'"></span></h3>
             </div>
-            <input class="btn" type="submit" value="Doładuj Konto" name="deposit"/>
-            <input class="btn" type="submit" value="Kup Bilet" name="buyTicket"/>
+            <div class="div-content p-3 pb-5">
+                <a th:href="@{/deposit/{id}(id=${ticket.ticketToBuyID})}" class="btn mx-2" id="deposit">Doładuj Konto</a>
+                <input class="btn mx-2" id="buyTicket" type="submit" value="Kup Bilet" name="buyTicket"/>
+            </div>
         </div>
     </div>
 </div>
