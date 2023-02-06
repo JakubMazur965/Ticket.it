@@ -196,7 +196,7 @@ public class DBHelper {
     }
 
     public static void addUser(Connection connection, User user) {
-        String query = "INSERT INTO user_table( name, surname, login, password, bank_balance) VALUES(?,?,?,?,?);";
+        String query = "INSERT INTO user_table(name, surname, login, password, bank_balance) VALUES(?,?,?,?,?);";
 
         if (!user.getName().matches("[a-zA-Z]+")) {
             throw new IllegalArgumentException("Invalid name.");
@@ -209,7 +209,6 @@ public class DBHelper {
         }
 
         try (PreparedStatement preparedStatement = connection.prepareStatement(query)) {
-            // adding row to ticket_to_buy table
             preparedStatement.setString(1, user.getName());
             preparedStatement.setString(2, user.getSurname());
             preparedStatement.setString(3, user.getLogin());
@@ -346,7 +345,7 @@ public class DBHelper {
 
     public Ticket_To_Buy getTicketToBuyById (int id, Connection connection) {
         Ticket_To_Buy ticket = new Ticket_To_Buy();
-        String query = "SELECT * FROM ticket_to_buy WHERE ticket_to_buy.ticket_to_buy_id = ? ;";
+        String query = "SELECT * FROM ticket_to_buy WHERE ticket_to_buy_id = ? AND is_busy = 0;";
         try {
             PreparedStatement statement = connection.prepareStatement(query);
             statement.setInt(1, id);
@@ -404,5 +403,114 @@ public class DBHelper {
         }
 
         return hav;
+    }
+
+    public void buyTicket (Connection connection, Ticket_To_Buy ticket, HttpSession httpSession) {
+        String query1 = "UPDATE ticket_to_buy SET is_busy = 1 WHERE ticket_to_buy_id = ? ;";
+        try {
+            PreparedStatement statement = connection.prepareStatement(query1);
+            statement.setInt(1, ticket.getTicketToBuyID());
+            statement.executeUpdate();
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+
+        String query2 = "INSERT INTO ticket(user_id, sector_number, event_id, price, seat_id) VALUES(?,?,?,?,?);";
+
+        try (PreparedStatement preparedStatement = connection.prepareStatement(query2)) {
+            preparedStatement.setInt(1, (int) httpSession.getAttribute("user_id"));
+            preparedStatement.setInt(2, ticket.getSectorNumber());
+            preparedStatement.setInt(3, ticket.getEventID());
+            preparedStatement.setInt(4, ticket.getPrice());
+            preparedStatement.setInt(5, ticket.getSeatID());
+
+            preparedStatement.executeUpdate();
+
+            System.out.println("The row has been added.");
+
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
+        }
+
+        String query3 = "UPDATE user_table SET bank_balance = ? WHERE user_id = ? ;";
+        try {
+            PreparedStatement statement = connection.prepareStatement(query3);
+            int bankBalance = (int) httpSession.getAttribute("user_bank_balance") - ticket.getPrice();
+            httpSession.setAttribute("user_bank_balance", bankBalance);
+            statement.setInt(1, bankBalance);
+            statement.setInt(2, (int) httpSession.getAttribute("user_id"));
+            statement.executeUpdate();
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    public List<Seat> getTicketHistorySeats(Connection connection, HttpSession httpSession) {
+        List<Seat> seats = new ArrayList<>();
+        String query = "SELECT * FROM seat s, ticket t WHERE s.seat_id = t.seat_id AND t.user_id = ?;";
+        try {
+            PreparedStatement statement = connection.prepareStatement(query);
+            statement.setInt(1, (int) httpSession.getAttribute("user_id"));
+            ResultSet rs = statement.executeQuery();
+            while (rs.next()) {
+                Seat seat = new Seat();
+                seat.setSeatNumber(rs.getInt(1));
+                seat.setRowNumber(rs.getInt(2));
+                seat.setSectorNumber(rs.getInt(3));
+                seat.setSeatID(rs.getInt(4));
+                seats.add(seat);
+            }
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+        return seats;
+    }
+
+    public List<Event> getTicketHistoryEvents(Connection connection, HttpSession httpSession) {
+        List<Event> events = new ArrayList<>();
+        String query = "SELECT * FROM event e, ticket t WHERE e.event_id = t.event_id AND t.user_id = ?;";
+        try {
+            PreparedStatement statement = connection.prepareStatement(query);
+            statement.setInt(1, (int) httpSession.getAttribute("user_id"));
+            ResultSet rs = statement.executeQuery();
+            while (rs.next()) {
+                Event event = new Event();
+                event.setEventID(rs.getInt(1));
+                event.setName(rs.getString(2));
+                event.setEventDate(rs.getDate(3));
+                event.setEventStart(rs.getTime(4));
+                event.setEventEnd(rs.getTime(5));
+                event.setOrganizer(rs.getString(6));
+                event.setEventClass(rs.getInt(7));
+
+                events.add(event);
+            }
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+        return events;
+    }
+
+    public List<Ticket> getTicketHistory(Connection connection, HttpSession httpSession) {
+        List<Ticket> tickets = new ArrayList<>();
+        String query = "SELECT * FROM ticket WHERE user_id = ?;";
+        try {
+            PreparedStatement statement = connection.prepareStatement(query);
+            statement.setInt(1, (int) httpSession.getAttribute("user_id"));
+            ResultSet rs = statement.executeQuery();
+            while (rs.next()) {
+                Ticket ticket = new Ticket();
+                ticket.setTicketID(rs.getInt(1));
+                ticket.setUserID(rs.getInt(2));
+                ticket.setSectorNumber(rs.getInt(3));
+                ticket.setEventID(rs.getInt(4));
+                ticket.setPrice(rs.getInt(5));
+                ticket.setSeatID(rs.getInt(6));
+                tickets.add(ticket);
+            }
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+        return tickets;
     }
 }

@@ -6,9 +6,8 @@ import org.springframework.stereotype.Component;
 public class Ticket {
     private int ticketID;
     private int userID;
-    private int seatNumber;
-    private int rowNumber;
     private int sectorNumber;
+    private int seatID;
     private int eventID;
     private int price;
 
@@ -16,27 +15,47 @@ public class Ticket {
         return ticketID;
     }
 
+    public void setTicketID(int ticketID) {
+        this.ticketID = ticketID;
+    }
+
     public int getUserID() {
         return userID;
     }
 
-    public int getSeatNumber() {
-        return seatNumber;
-    }
-
-    public int getRowNumber() {
-        return rowNumber;
+    public void setUserID(int userID) {
+        this.userID = userID;
     }
 
     public int getSectorNumber() {
         return sectorNumber;
     }
 
+    public void setSectorNumber(int sectorNumber) {
+        this.sectorNumber = sectorNumber;
+    }
+
+    public int getSeatID() {
+        return seatID;
+    }
+
+    public void setSeatID(int seatID) {
+        this.seatID = seatID;
+    }
+
     public int getEventID() {
         return eventID;
     }
 
+    public void setEventID(int eventID) {
+        this.eventID = eventID;
+    }
+
     public int getPrice() {
         return price;
+    }
+
+    public void setPrice(int price) {
+        this.price = price;
     }
 }

@@ -12,7 +12,9 @@
             </div>
             <div class="div-content p-3 pb-5">
                 <a th:href="@{/deposit/{id}(id=${ticket.ticketToBuyID})}" class="btn mx-2" id="deposit">Doładuj Konto</a>
-                <input class="btn mx-2" id="buyTicket" type="submit" value="Kup Bilet" name="buyTicket"/>
+                <form th:action="@{/ticket/{id}(id=${ticket.ticketToBuyID})}" method="post">
+                    <input class="btn mx-2" id="buyTicket" type="submit" value="Kup Bilet" name="buyTicket"/>
+                </form>
             </div>
         </div>
     </div>

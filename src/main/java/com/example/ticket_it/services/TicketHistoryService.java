@@ -1,54 +1,48 @@
 package com.example.ticket_it.services;
 
-import com.example.ticket_it.components.DBHelper;
-import com.example.ticket_it.components.Seat;
-import com.example.ticket_it.components.Ticket_To_Buy;
-import com.example.ticket_it.components.Utils;
+import com.example.ticket_it.components.*;
 import com.jcraft.jsch.Session;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.sql.Connection;
+import java.util.List;
 
 @Service
-public class Ticket_To_BuyService  {
-
-    @Autowired
-    DBHelper dbHelper;
+public class TicketHistoryService {
 
     @Autowired
     HttpSession httpSession;
 
-    public Ticket_To_Buy getTicketByID (int id) {
-        Ticket_To_Buy ticket_to_buy = new Ticket_To_Buy();
+    @Autowired
+    DBHelper dbHelper;
 
+    public List<Seat> getSeatsHistory() {
         Session session = Utils.DBSession();
         Connection connection = Utils.DBConnection(session);
-        ticket_to_buy = dbHelper.getTicketToBuyById(id, connection);
+        List<Seat> seats = dbHelper.getTicketHistorySeats(connection, httpSession);
         Utils.endDBConnection(connection);
         Utils.endDBSession(session);
-
-        return ticket_to_buy;
+        return seats;
     }
 
-    public Seat getSeatByID (int id) {
-        Seat seat = new Seat();
-
+    public List<Event> getEventsHistory() {
         Session session = Utils.DBSession();
         Connection connection = Utils.DBConnection(session);
-        seat = dbHelper.getSeatById(id, connection);
+        List<Event> events = dbHelper.getTicketHistoryEvents(connection, httpSession);
         Utils.endDBConnection(connection);
         Utils.endDBSession(session);
-
-        return seat;
+        return events;
     }
 
-    public void buyTicket (Ticket_To_Buy ticket) {
+    public List<Ticket> getTicketsHistory() {
         Session session = Utils.DBSession();
         Connection connection = Utils.DBConnection(session);
-        dbHelper.buyTicket(connection, ticket, httpSession);
+        List<Ticket> tickets = dbHelper.getTicketHistory(connection, httpSession);
         Utils.endDBConnection(connection);
         Utils.endDBSession(session);
+        return tickets;
     }
+
 }

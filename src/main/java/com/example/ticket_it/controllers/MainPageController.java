@@ -45,26 +45,6 @@ public class MainPageController {
         return "register.html";
     }
 
-    @RequestMapping("/payment_history")
-    public String paymentHistoryPage(Model model) {
-        model.addAttribute("isLoggedIn", httpSession.getAttribute("isLoggedIn"));
-        model.addAttribute("user_name", httpSession.getAttribute("user_name"));
-        model.addAttribute("user_surname", httpSession.getAttribute("user_surname"));
-        model.addAttribute("user_login", httpSession.getAttribute("user_login"));
-        model.addAttribute("user_bank_balance", httpSession.getAttribute("user_bank_balance"));
-        return "payment_history.html";
-    }
-
-    @RequestMapping("/ticket_history")
-    public String ticketHistoryPage(Model model) {
-        model.addAttribute("isLoggedIn", httpSession.getAttribute("isLoggedIn"));
-        model.addAttribute("user_name", httpSession.getAttribute("user_name"));
-        model.addAttribute("user_surname", httpSession.getAttribute("user_surname"));
-        model.addAttribute("user_login", httpSession.getAttribute("user_login"));
-        model.addAttribute("user_bank_balance", httpSession.getAttribute("user_bank_balance"));
-        return "ticket_history.html";
-    }
-
     @RequestMapping("/deposit")
     public String depositPage(Model model) {
         model.addAttribute("isLoggedIn", httpSession.getAttribute("isLoggedIn"));

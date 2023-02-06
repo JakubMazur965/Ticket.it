@@ -40,13 +40,19 @@ public class Ticket_To_BuyController {
     }
 
     @PostMapping("/ticket/{id}")
-    public String handleFormSubmit(@RequestParam(required = false) String deposit,
+    public String handleFormSubmit(@PathVariable int id,
                                    @RequestParam(required = false) String buyTicket) {
 
-        if (deposit != null) {
-            return "redirect:/deposit";
-        } else if (buyTicket != null) {
-            return "redirect:/";
+        Ticket_To_Buy ticket = ticket_to_buyService.getTicketByID(id);
+
+        if (buyTicket != null) {
+            if (ticket.getPrice() > (int) httpSession.getAttribute("user_bank_balance")) {
+                // tu trzeba zrobic jakis alert
+                System.out.println("nie masz na ten bilecik kaski paniczu");
+                return "redirect:/ticket/" + id;
+            } else {
+                ticket_to_buyService.buyTicket(ticket);
+            }
         }
         return "redirect:/";
     }
