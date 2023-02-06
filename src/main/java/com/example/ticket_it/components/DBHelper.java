@@ -285,7 +285,7 @@ public class DBHelper {
 
     public List<Ticket_To_Buy> getTicketToBuyByEventIdAndSectorNumber (Connection connection, int eventId, int sectorNumber) {
         List<Ticket_To_Buy> tickets = new ArrayList<>();
-        String query = "SELECT * FROM ticket_to_buy WHERE ticket_to_buy.event_id = ? AND ticket_to_buy.sector_number = ?;";
+        String query = "SELECT * FROM ticket_to_buy WHERE ticket_to_buy.event_id = ? AND ticket_to_buy.sector_number = ? AND is_busy = 0;";
 
         try {
             PreparedStatement statement = connection.prepareStatement(query);
@@ -346,7 +346,7 @@ public class DBHelper {
 
     public Ticket_To_Buy getTicketToBuyById (int id, Connection connection) {
         Ticket_To_Buy ticket = new Ticket_To_Buy();
-        String query = "SELECT * FROM ticket_to_buy WHERE ticket_to_buy_id = ? AND is_busy = 0;";
+        String query = "SELECT * FROM ticket_to_buy WHERE ticket_to_buy_id = ? ;";
         try {
             PreparedStatement statement = connection.prepareStatement(query);
             statement.setInt(1, id);
