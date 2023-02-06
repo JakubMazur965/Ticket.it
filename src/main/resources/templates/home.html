@@ -2,6 +2,10 @@
 <div th:insert="~{base :: navbar}"></div>
 <div class="wrapper">
     <div class="content">
+        <div>
+            <div class="alert alert-primary" role="alert" th:text="${success}" th:if="${success}"></div>
+        </div>
+
         <table class="table table-hover">
             <thead>
             <tr class="table">

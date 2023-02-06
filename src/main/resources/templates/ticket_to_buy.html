@@ -10,6 +10,10 @@
                 <h3> Numer miejsca: <span th:text="${seat.seatNumber}"></span></h3>
                 <h3> Cena biletu: <span th:text="${ticket.price} + ' PLN'"></span></h3>
             </div>
+            <div>
+                <div class="alert alert-danger" role="alert" th:text="${error}" th:if="${error}"></div>
+            </div>
+
             <div class="div-content p-3 pb-5">
                 <a th:href="@{/deposit/{id}(id=${ticket.ticketToBuyID})}" class="btn mx-2" id="deposit">Doładuj Konto</a>
                 <form th:action="@{/ticket/{id}(id=${ticket.ticketToBuyID})}" method="post">

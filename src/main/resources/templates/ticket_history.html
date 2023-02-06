@@ -18,12 +18,12 @@
             </thead>
             <tbody>
             <tr th:each="ticket : ${tickets}">
-                <th scope="row">test</th>
-                <th scope="row">test</th>
-                <th scope="row">test</th>
-                <th scope="row">test</th>
-                <th scope="row">test</th>
-                <th scope="row">test</th>
+                <th th:each="event : ${events}" th:if="${ticket.eventID == event.eventID}" th:text="${event.name}" scope="row"></th>
+                <th th:each="event : ${events}" th:if="${ticket.eventID == event.eventID}" th:text="${event.eventDate}" scope="row"></th>
+                <th th:each="event : ${events}" th:if="${ticket.eventID == event.eventID}" th:text="${event.eventStart} + ' - ' + ${event.eventEnd}" scope="row"></th>
+                <th th:each="seat : ${seats}" th:if="${ticket.seatID == seat.seatID}" th:text="${seat.sectorNumber}" scope="row"></th>
+                <th th:each="seat : ${seats}" th:if="${ticket.seatID == seat.seatID}" th:text="${seat.rowNumber}" scope="row"></th>
+                <th th:each="seat : ${seats}" th:if="${ticket.seatID == seat.seatID}" th:text="${seat.seatNumber}" scope="row"></th>
             </tr>
             </tbody>
         </table>

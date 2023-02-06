@@ -3,6 +3,7 @@ package com.example.ticket_it.components;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Component;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.sql.*;
 import java.util.ArrayList;
@@ -106,15 +107,15 @@ public class DBHelper {
             Statement stmt = connection.createStatement();
             ResultSet rs = stmt.executeQuery(query);
 
-            rs.next();
-
-            event.setEventID(rs.getInt(1));
-            event.setName(rs.getString(2));
-            event.setEventDate(rs.getDate(3));
-            event.setEventStart(rs.getTime(4));
-            event.setEventEnd(rs.getTime(5));
-            event.setOrganizer(rs.getString(6));
-            event.setEventClass(rs.getInt(7));
+            while (rs.next()) {
+                event.setEventID(rs.getInt(1));
+                event.setName(rs.getString(2));
+                event.setEventDate(rs.getDate(3));
+                event.setEventStart(rs.getTime(4));
+                event.setEventEnd(rs.getTime(5));
+                event.setOrganizer(rs.getString(6));
+                event.setEventClass(rs.getInt(7));
+            }
 
         } catch (SQLException throwables) {
             throwables.printStackTrace();
@@ -351,13 +352,14 @@ public class DBHelper {
             statement.setInt(1, id);
             ResultSet rs = statement.executeQuery();
 
-            rs.next();
-            ticket.setSectorNumber(rs.getInt(1));
-            ticket.setEventID(rs.getInt(2));
-            ticket.setPrice(rs.getInt(3));
-            ticket.setIsBusy(rs.getInt(4));
-            ticket.setSeatID(rs.getInt(5));
-            ticket.setTicketToBuyID(rs.getInt(6));
+            while (rs.next()) {
+                ticket.setSectorNumber(rs.getInt(1));
+                ticket.setEventID(rs.getInt(2));
+                ticket.setPrice(rs.getInt(3));
+                ticket.setIsBusy(rs.getInt(4));
+                ticket.setSeatID(rs.getInt(5));
+                ticket.setTicketToBuyID(rs.getInt(6));
+            }
 
         } catch (SQLException e) {
             throw new RuntimeException(e);
@@ -373,9 +375,10 @@ public class DBHelper {
             statement.setInt(1, id);
             ResultSet rs = statement.executeQuery();
 
-            rs.next();
-            seat.setSeatNumber(rs.getInt(1));
-            seat.setRowNumber(rs.getInt(2));
+            while (rs.next()) {
+                seat.setSeatNumber(rs.getInt(1));
+                seat.setRowNumber(rs.getInt(2));
+            }
 
         } catch (SQLException e) {
             throw new RuntimeException(e);
@@ -447,7 +450,7 @@ public class DBHelper {
 
     public List<Seat> getTicketHistorySeats(Connection connection, HttpSession httpSession) {
         List<Seat> seats = new ArrayList<>();
-        String query = "SELECT * FROM seat s, ticket t WHERE s.seat_id = t.seat_id AND t.user_id = ?;";
+        String query = "SELECT * FROM seat WHERE seat_id = any(SELECT seat_id FROM ticket WHERE user_id = ?);";
         try {
             PreparedStatement statement = connection.prepareStatement(query);
             statement.setInt(1, (int) httpSession.getAttribute("user_id"));
@@ -468,7 +471,7 @@ public class DBHelper {
 
     public List<Event> getTicketHistoryEvents(Connection connection, HttpSession httpSession) {
         List<Event> events = new ArrayList<>();
-        String query = "SELECT * FROM event e, ticket t WHERE e.event_id = t.event_id AND t.user_id = ?;";
+        String query = "SELECT * FROM event WHERE event_id = any(SELECT event_id FROM ticket WHERE user_id = ?);";
         try {
             PreparedStatement statement = connection.prepareStatement(query);
             statement.setInt(1, (int) httpSession.getAttribute("user_id"));

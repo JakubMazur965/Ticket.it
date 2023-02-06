@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 @Controller
 public class Ticket_To_BuyController {
@@ -36,24 +37,30 @@ public class Ticket_To_BuyController {
         model.addAttribute("ticket", ticket);
         model.addAttribute("seat", ticket_to_buyService.getSeatByID(ticket.getSeatID()));
 
-        return "ticket_to_buy.html";
+        if (eventService.getEventByID(ticket.getEventID()).getName() == null) {
+            return "busy_ticket.html";
+        } else {
+            return "ticket_to_buy.html";
+        }
     }
 
     @PostMapping("/ticket/{id}")
     public String handleFormSubmit(@PathVariable int id,
-                                   @RequestParam(required = false) String buyTicket) {
+                                   @RequestParam(required = false) String buyTicket, RedirectAttributes redirAttrs) {
 
         Ticket_To_Buy ticket = ticket_to_buyService.getTicketByID(id);
 
         if (buyTicket != null) {
             if (ticket.getPrice() > (int) httpSession.getAttribute("user_bank_balance")) {
-                // tu trzeba zrobic jakis alert
-                System.out.println("nie masz na ten bilecik kaski paniczu");
+                redirAttrs.addFlashAttribute("error", "Nie posiadasz wystarczająco dużo środków! Doładuj konto.");
                 return "redirect:/ticket/" + id;
             } else {
                 ticket_to_buyService.buyTicket(ticket);
+                redirAttrs.addFlashAttribute("success", "Bilet został zakupiony.");
             }
         }
+
         return "redirect:/";
     }
+
 }

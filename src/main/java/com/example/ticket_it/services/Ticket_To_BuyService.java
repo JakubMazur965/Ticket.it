@@ -21,7 +21,7 @@ public class Ticket_To_BuyService  {
     HttpSession httpSession;
 
     public Ticket_To_Buy getTicketByID (int id) {
-        Ticket_To_Buy ticket_to_buy = new Ticket_To_Buy();
+        Ticket_To_Buy ticket_to_buy;
 
         Session session = Utils.DBSession();
         Connection connection = Utils.DBConnection(session);
@@ -33,7 +33,7 @@ public class Ticket_To_BuyService  {
     }
 
     public Seat getSeatByID (int id) {
-        Seat seat = new Seat();
+        Seat seat;
 
         Session session = Utils.DBSession();
         Connection connection = Utils.DBConnection(session);
