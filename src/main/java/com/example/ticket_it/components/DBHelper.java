@@ -409,18 +409,34 @@ public class DBHelper {
     }
 
     public void buyTicket (Connection connection, Ticket_To_Buy ticket, HttpSession httpSession) {
-        String query1 = "UPDATE ticket_to_buy SET is_busy = 1 WHERE ticket_to_buy_id = ? ;";
+        String query1 = "begin;";
         try {
             PreparedStatement statement = connection.prepareStatement(query1);
+            statement.executeUpdate();
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+
+        String query2 = "set transaction isolation level serializable;";
+        try {
+            PreparedStatement statement = connection.prepareStatement(query2);
+            statement.executeUpdate();
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+
+        String query3 = "UPDATE ticket_to_buy SET is_busy = 1 WHERE ticket_to_buy_id = ? ;";
+        try {
+            PreparedStatement statement = connection.prepareStatement(query3);
             statement.setInt(1, ticket.getTicketToBuyID());
             statement.executeUpdate();
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
 
-        String query2 = "INSERT INTO ticket(user_id, sector_number, event_id, price, seat_id) VALUES(?,?,?,?,?);";
+        String query4 = "INSERT INTO ticket(user_id, sector_number, event_id, price, seat_id) VALUES(?,?,?,?,?);";
 
-        try (PreparedStatement preparedStatement = connection.prepareStatement(query2)) {
+        try (PreparedStatement preparedStatement = connection.prepareStatement(query4)) {
             preparedStatement.setInt(1, (int) httpSession.getAttribute("user_id"));
             preparedStatement.setInt(2, ticket.getSectorNumber());
             preparedStatement.setInt(3, ticket.getEventID());
@@ -435,13 +451,21 @@ public class DBHelper {
             System.out.println(e.getMessage());
         }
 
-        String query3 = "UPDATE user_table SET bank_balance = ? WHERE user_id = ? ;";
+        String query5 = "UPDATE user_table SET bank_balance = ? WHERE user_id = ? ;";
         try {
-            PreparedStatement statement = connection.prepareStatement(query3);
+            PreparedStatement statement = connection.prepareStatement(query5);
             int bankBalance = (int) httpSession.getAttribute("user_bank_balance") - ticket.getPrice();
             httpSession.setAttribute("user_bank_balance", bankBalance);
             statement.setInt(1, bankBalance);
             statement.setInt(2, (int) httpSession.getAttribute("user_id"));
+            statement.executeUpdate();
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+
+        String query6 = "commit;";
+        try {
+            PreparedStatement statement = connection.prepareStatement(query6);
             statement.executeUpdate();
         } catch (SQLException e) {
             throw new RuntimeException(e);
