@@ -1,6 +1,5 @@
 package com.example.ticket_it.controllers;
 
-import com.example.ticket_it.components.DBHelper;
 import com.example.ticket_it.components.Ticket_To_Buy;
 import com.example.ticket_it.services.EventService;
 import com.example.ticket_it.services.Ticket_To_BuyService;
@@ -56,7 +55,7 @@ public class Ticket_To_BuyController {
                 redirAttrs.addFlashAttribute("error", "Nie posiadasz wystarczająco dużo środków! Doładuj konto.");
                 return "redirect:/ticket/" + id;
             } else {
-                if (ticket_to_buyService.buyTicket(ticket) == true) {
+                if (ticket_to_buyService.buyTicket(ticket)) {
                     redirAttrs.addFlashAttribute("success", "Bilet został zakupiony.");
                 } else {
                     redirAttrs.addFlashAttribute("error", "Ktoś właśnie kupił ten bilet! Musisz kupić inny.");
