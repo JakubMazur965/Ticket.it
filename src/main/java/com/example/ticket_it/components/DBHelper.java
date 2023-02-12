@@ -285,7 +285,7 @@ public class DBHelper {
 
     public List<Ticket_To_Buy> getTicketToBuyByEventIdAndSectorNumber (Connection connection, int eventId, int sectorNumber) {
         List<Ticket_To_Buy> tickets = new ArrayList<>();
-        String query = "SELECT * FROM ticket_to_buy WHERE ticket_to_buy.event_id = ? AND ticket_to_buy.sector_number = ? AND is_busy = 0;";
+        String query = "SELECT * FROM ticket_to_buy WHERE ticket_to_buy.event_id = ? AND ticket_to_buy.sector_number = ? AND is_busy = 0 ORDER BY ticket_to_buy_id;";
 
         try {
             PreparedStatement statement = connection.prepareStatement(query);
