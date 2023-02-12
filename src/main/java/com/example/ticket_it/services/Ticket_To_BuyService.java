@@ -44,12 +44,14 @@ public class Ticket_To_BuyService  {
         return seat;
     }
 
-    public void buyTicket (Ticket_To_Buy ticket) {
+    public boolean buyTicket (Ticket_To_Buy ticket) {
         Session session = Utils.DBSession();
         Connection connection = Utils.DBConnection(session);
-        dbHelper.buyTicket(connection, ticket, httpSession);
+        boolean result = dbHelper.buyTicket(connection, ticket, httpSession);
         Utils.endDBConnection(connection);
         Utils.endDBSession(session);
+
+        return result;
     }
 
     public int getIsBusyFromDB(int id) {

@@ -56,8 +56,11 @@ public class Ticket_To_BuyController {
                 redirAttrs.addFlashAttribute("error", "Nie posiadasz wystarczająco dużo środków! Doładuj konto.");
                 return "redirect:/ticket/" + id;
             } else {
-                ticket_to_buyService.buyTicket(ticket);
-                redirAttrs.addFlashAttribute("success", "Bilet został zakupiony.");
+                if (ticket_to_buyService.buyTicket(ticket) == true) {
+                    redirAttrs.addFlashAttribute("success", "Bilet został zakupiony.");
+                } else {
+                    redirAttrs.addFlashAttribute("error", "Ktoś właśnie kupił ten bilet! Musisz kupić inny.");
+                }
             }
         }
 

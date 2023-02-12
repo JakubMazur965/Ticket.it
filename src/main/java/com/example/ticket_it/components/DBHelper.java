@@ -408,7 +408,9 @@ public class DBHelper {
         return hav;
     }
 
-    public void buyTicket (Connection connection, Ticket_To_Buy ticket, HttpSession httpSession) {
+    public boolean buyTicket (Connection connection, Ticket_To_Buy ticket, HttpSession httpSession) {
+
+        boolean result = true;
 
         String query_sel = "SELECT * FROM ticket_to_buy WHERE ticket_to_buy_id = ? FOR UPDATE ;";
         String query1 = "INSERT INTO ticket(user_id, sector_number, event_id, price, seat_id) VALUES(?,?,?,?,?);";
@@ -443,19 +445,20 @@ public class DBHelper {
             statement.executeUpdate();
 
             connection.commit();
-            System.out.println("success");
 
         } catch (SQLException e) {
             e.printStackTrace();
             if (connection != null) {
                 try {
-                    System.out.println("failure");
                     connection.rollback();
+                    result = false;
                 } catch (Exception ex) {
                     ex.printStackTrace();
                 }
             }
         }
+
+        return result;
     }
 
     public List<Seat> getTicketHistorySeats(Connection connection, HttpSession httpSession) {
