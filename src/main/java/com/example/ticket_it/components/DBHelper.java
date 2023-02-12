@@ -412,12 +412,13 @@ public class DBHelper {
         String query = "begin;" +
                 "set transaction isolation level serializable;" +
                 "SELECT ticket_to_buy_id FROM ticket_to_buy WHERE ticket_to_buy_id = ? FOR UPDATE;" +
-                "INSERT INTO ticket(user_id, sector_number, event_id, price, seat_id) VALUES(?,?,?,?,?);" +
                 "UPDATE ticket_to_buy SET is_busy = 1 WHERE ticket_to_buy_id = ? ;" +
                 "UPDATE user_table SET bank_balance = ? WHERE user_id = ? ;" +
+                "INSERT INTO ticket(user_id, sector_number, event_id, price, seat_id) VALUES(?,?,?,?,?);" +
                 "commit ;";
         try {
             PreparedStatement statement;
+            connection.setAutoCommit(false);
 
             statement = connection.prepareStatement(query);
             statement.setInt(1, ticket.getTicketToBuyID());
