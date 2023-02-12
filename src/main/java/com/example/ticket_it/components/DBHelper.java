@@ -409,26 +409,28 @@ public class DBHelper {
     }
 
     public void buyTicket (Connection connection, Ticket_To_Buy ticket, HttpSession httpSession) {
-        String query1 = "begin;" +
-                        "set transaction isolation level serializable;" +
-                        "INSERT INTO ticket(user_id, sector_number, event_id, price, seat_id) VALUES(?,?,?,?,?);" +
-                        "UPDATE ticket_to_buy SET is_busy = 1 WHERE ticket_to_buy_id = ? ;" +
-                        "UPDATE user_table SET bank_balance = ? WHERE user_id = ? ;" +
-                        "commit ;";
+        String query = "begin;" +
+                "set transaction isolation level serializable;" +
+                "SELECT ticket_to_buy_id FROM ticket_to_buy WHERE ticket_to_buy_id = ? FOR UPDATE;" +
+                "INSERT INTO ticket(user_id, sector_number, event_id, price, seat_id) VALUES(?,?,?,?,?);" +
+                "UPDATE ticket_to_buy SET is_busy = 1 WHERE ticket_to_buy_id = ? ;" +
+                "UPDATE user_table SET bank_balance = ? WHERE user_id = ? ;" +
+                "commit ;";
         try {
             PreparedStatement statement;
 
-            statement = connection.prepareStatement(query1);
-            statement.setInt(1, (int) httpSession.getAttribute("user_id"));
-            statement.setInt(2, ticket.getSectorNumber());
-            statement.setInt(3, ticket.getEventID());
-            statement.setInt(4, ticket.getPrice());
-            statement.setInt(5, ticket.getSeatID());
-            statement.setInt(6, ticket.getTicketToBuyID());
+            statement = connection.prepareStatement(query);
+            statement.setInt(1, ticket.getTicketToBuyID());
+            statement.setInt(2, (int) httpSession.getAttribute("user_id"));
+            statement.setInt(3, ticket.getSectorNumber());
+            statement.setInt(4, ticket.getEventID());
+            statement.setInt(5, ticket.getPrice());
+            statement.setInt(6, ticket.getSeatID());
+            statement.setInt(7, ticket.getTicketToBuyID());
             int bankBalance = (int) httpSession.getAttribute("user_bank_balance") - ticket.getPrice();
             httpSession.setAttribute("user_bank_balance", bankBalance);
-            statement.setInt(7, bankBalance);
-            statement.setInt(8, (int) httpSession.getAttribute("user_id"));
+            statement.setInt(8, bankBalance);
+            statement.setInt(9, (int) httpSession.getAttribute("user_id"));
             statement.executeUpdate();
 
         } catch (SQLException e) {
