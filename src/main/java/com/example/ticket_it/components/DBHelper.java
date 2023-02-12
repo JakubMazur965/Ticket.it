@@ -410,34 +410,41 @@ public class DBHelper {
 
     public void buyTicket (Connection connection, Ticket_To_Buy ticket, HttpSession httpSession) {
 
-        String query = "UPDATE ticket_to_buy SET is_busy = 1 WHERE ticket_to_buy_id = ? ;" +
-                "UPDATE user_table SET bank_balance = ? WHERE user_id = ? ;" +
-                "INSERT INTO ticket(user_id, sector_number, event_id, price, seat_id) VALUES(?,?,?,?,?);";
+        String query1 = "UPDATE ticket_to_buy SET is_busy = 1 WHERE ticket_to_buy_id = ? ;";
+        String query2 = "UPDATE user_table SET bank_balance = ? WHERE user_id = ? ;";
+        String query3 = "INSERT INTO ticket(user_id, sector_number, event_id, price, seat_id) VALUES(?,?,?,?,?);";
 
         try {
             connection.setAutoCommit(false);
-            PreparedStatement statement;
+            connection.setTransactionIsolation(Connection.TRANSACTION_SERIALIZABLE);
 
-            statement = connection.prepareStatement(query);
+            PreparedStatement statement = connection.prepareStatement(query1);
             statement.setInt(1, ticket.getTicketToBuyID());
+            statement.executeUpdate();
+
             int bankBalance = (int) httpSession.getAttribute("user_bank_balance") - ticket.getPrice();
             httpSession.setAttribute("user_bank_balance", bankBalance);
-            statement.setInt(2, bankBalance);
-            statement.setInt(3, (int) httpSession.getAttribute("user_id"));
-            statement.setInt(4, (int) httpSession.getAttribute("user_id"));
-            statement.setInt(5, ticket.getSectorNumber());
-            statement.setInt(6, ticket.getEventID());
-            statement.setInt(7, ticket.getPrice());
-            statement.setInt(8, ticket.getSeatID());
+            statement = connection.prepareStatement(query2);
+            statement.setInt(1, bankBalance);
+            statement.setInt(2, (int) httpSession.getAttribute("user_id"));
             statement.executeUpdate();
+
+            statement = connection.prepareStatement(query3);
+            statement.setInt(1, (int) httpSession.getAttribute("user_id"));
+            statement.setInt(2, ticket.getSectorNumber());
+            statement.setInt(3, ticket.getEventID());
+            statement.setInt(4, ticket.getPrice());
+            statement.setInt(5, ticket.getSeatID());
+            statement.executeUpdate();
+
             connection.commit();
-            System.out.println("dupa");
+            System.out.println("success");
 
         } catch (SQLException e) {
             e.printStackTrace();
             if (connection != null) {
                 try {
-                    System.out.println("dupa jasia");
+                    System.out.println("failure");
                     connection.rollback();
                 } catch (Exception ex) {
                     ex.printStackTrace();
