@@ -199,13 +199,13 @@ public class DBHelper {
     public static void addUser(Connection connection, User user) {
         String query = "INSERT INTO user_table(name, surname, login, password, bank_balance) VALUES(?,?,?,?,?);";
 
-        if (!user.getName().matches("[a-zA-Z]+")) {
+        if (!user.getName().matches("[a-zA-ZŻŹĆĄŚĘŁÓŃżźćąśęłóń]+")) {
             throw new IllegalArgumentException("Invalid name.");
         }
-        if (!user.getSurname().matches("[a-zA-Z]+")) {
+        if (!user.getSurname().matches("[a-zA-ZŻŹĆĄŚĘŁÓŃżźćąśęłóń]+")) {
             throw new IllegalArgumentException("Invalid surname.");
         }
-        if (!user.getLogin().matches("[a-zA-Z0-9]+")) {
+        if (!user.getLogin().matches("[a-zA-Z0-9ŻŹĆĄŚĘŁÓŃżźćąśęłóń]+")) {
             throw new IllegalArgumentException("Invalid username.");
         }
 
@@ -228,7 +228,7 @@ public class DBHelper {
     public static boolean loginUser(Connection connection, String username, String password) {
         String query = "SELECT * FROM user_table WHERE user_table.login = ? ;";
 
-        if (!username.matches("[a-zA-Z0-9]+")) {
+        if (!username.matches("[a-zA-Z0-9ŻŹĆĄŚĘŁÓŃżźćąśęłóń]+")) {
             throw new IllegalArgumentException("Invalid username.");
         }
 
@@ -260,7 +260,7 @@ public class DBHelper {
 
         String query = "SELECT * FROM user_table WHERE user_table.login = ? ;";
 
-        if (!login.matches("[a-zA-Z0-9]+")) {
+        if (!login.matches("[a-zA-Z0-9ŻŹĆĄŚĘŁÓŃżźćąśęłóń]+")) {
             throw new IllegalArgumentException("Invalid username.");
         }
 
