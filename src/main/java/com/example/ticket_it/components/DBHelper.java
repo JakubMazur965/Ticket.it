@@ -409,18 +409,14 @@ public class DBHelper {
     }
 
     public void buyTicket (Connection connection, Ticket_To_Buy ticket, HttpSession httpSession) {
-        String query = "SELECT * FROM ticket_to_buy WHERE ticket_to_buy_id = ? FOR UPDATE NOWAIT";
-        String query1 = "INSERT INTO ticket(user_id, sector_number, event_id, price, seat_id) VALUES(?,?,?,?,?);";
-        String query2 = "UPDATE ticket_to_buy SET is_busy = 1 WHERE ticket_to_buy_id = ? ;";
-        String query3 = "UPDATE user_table SET bank_balance = ? WHERE user_id = ? ;";
+        String query1 = "begin;" +
+                        "set transaction isolation level serializable;" +
+                        "INSERT INTO ticket(user_id, sector_number, event_id, price, seat_id) VALUES(?,?,?,?,?);" +
+                        "UPDATE ticket_to_buy SET is_busy = 1 WHERE ticket_to_buy_id = ? ;" +
+                        "UPDATE user_table SET bank_balance = ? WHERE user_id = ? ;" +
+                        "commit ;";
         try {
             PreparedStatement statement;
-            connection.setAutoCommit(false);
-            connection.setTransactionIsolation(Connection.TRANSACTION_SERIALIZABLE);
-
-            statement = connection.prepareStatement(query);
-            statement.setInt(1, ticket.getTicketToBuyID());
-            statement.executeUpdate();
 
             statement = connection.prepareStatement(query1);
             statement.setInt(1, (int) httpSession.getAttribute("user_id"));
@@ -428,33 +424,15 @@ public class DBHelper {
             statement.setInt(3, ticket.getEventID());
             statement.setInt(4, ticket.getPrice());
             statement.setInt(5, ticket.getSeatID());
-            statement.executeUpdate();
-
-            statement = connection.prepareStatement(query2);
-            statement.setInt(1, ticket.getTicketToBuyID());
-            statement.executeUpdate();
-
-            statement = connection.prepareStatement(query3);
+            statement.setInt(6, ticket.getTicketToBuyID());
             int bankBalance = (int) httpSession.getAttribute("user_bank_balance") - ticket.getPrice();
             httpSession.setAttribute("user_bank_balance", bankBalance);
-            statement.setInt(1, bankBalance);
-            statement.setInt(2, (int) httpSession.getAttribute("user_id"));
+            statement.setInt(7, bankBalance);
+            statement.setInt(8, (int) httpSession.getAttribute("user_id"));
             statement.executeUpdate();
 
-            connection.commit();
         } catch (SQLException e) {
-            try {
-                connection.rollback();
-            } catch (SQLException ex) {
-                throw new RuntimeException(ex);
-            }
-            throw new RuntimeException(e);
-        } finally {
-            try {
-                connection.close();
-            } catch (SQLException e) {
-                throw new RuntimeException(e);
-            }
+            e.getMessage();
         }
     }
 
