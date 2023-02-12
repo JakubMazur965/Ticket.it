@@ -520,4 +520,21 @@ public class DBHelper {
         }
         return tickets;
     }
+
+    public int getIsBusy(Connection connection, int id) {
+        int isBusy;
+        String query = "SELECT is_busy FROM ticket_to_buy WHERE ticket_to_buy_id = ?;";
+
+        try {
+            PreparedStatement statement = connection.prepareStatement(query);
+            statement.setInt(1, id);
+            ResultSet rs = statement.executeQuery();
+            rs.next();
+            isBusy = rs.getInt(1);
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+
+        return isBusy;
+    }
 }

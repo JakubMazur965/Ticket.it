@@ -1,5 +1,6 @@
 package com.example.ticket_it.controllers;
 
+import com.example.ticket_it.components.DBHelper;
 import com.example.ticket_it.components.Ticket_To_Buy;
 import com.example.ticket_it.services.EventService;
 import com.example.ticket_it.services.Ticket_To_BuyService;
@@ -37,7 +38,7 @@ public class Ticket_To_BuyController {
         model.addAttribute("ticket", ticket);
         model.addAttribute("seat", ticket_to_buyService.getSeatByID(ticket.getSeatID()));
 
-        if (eventService.getEventByID(ticket.getEventID()).getName() == null) {
+        if (ticket_to_buyService.getIsBusyFromDB(id) == 1) {
             return "busy_ticket.html";
         } else {
             return "ticket_to_buy.html";

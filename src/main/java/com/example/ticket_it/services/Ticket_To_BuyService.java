@@ -51,4 +51,13 @@ public class Ticket_To_BuyService  {
         Utils.endDBConnection(connection);
         Utils.endDBSession(session);
     }
+
+    public int getIsBusyFromDB(int id) {
+        Session session = Utils.DBSession();
+        Connection connection = Utils.DBConnection(session);
+        int isBusy = dbHelper.getIsBusy(connection, id);
+        Utils.endDBConnection(connection);
+        Utils.endDBSession(session);
+        return isBusy;
+    }
 }
