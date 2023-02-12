@@ -410,6 +410,7 @@ public class DBHelper {
 
     public void buyTicket (Connection connection, Ticket_To_Buy ticket, HttpSession httpSession) {
 
+        String query_sel = "SELECT * FROM ticket_to_buy WHERE ticket_to_buy_id = ? FOR UPDATE ;";
         String query1 = "UPDATE ticket_to_buy SET is_busy = 1 WHERE ticket_to_buy_id = ? ;";
         String query2 = "UPDATE user_table SET bank_balance = ? WHERE user_id = ? ;";
         String query3 = "INSERT INTO ticket(user_id, sector_number, event_id, price, seat_id) VALUES(?,?,?,?,?);";
@@ -418,7 +419,11 @@ public class DBHelper {
             connection.setAutoCommit(false);
             connection.setTransactionIsolation(Connection.TRANSACTION_SERIALIZABLE);
 
-            PreparedStatement statement = connection.prepareStatement(query1);
+            PreparedStatement statement = connection.prepareStatement(query_sel);
+            statement.setInt(1, ticket.getTicketToBuyID());
+            ResultSet resultSet = statement.executeQuery();
+
+            statement = connection.prepareStatement(query1);
             statement.setInt(1, ticket.getTicketToBuyID());
             statement.executeUpdate();
 
